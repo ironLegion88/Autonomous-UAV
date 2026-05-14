@@ -10,7 +10,9 @@ Due to strict 2.5-month project timeline constraints, this project utilizes a **
 
 ## 🚀 Project Objectives
 1. **Endurance:** Design a powertrain capable of 15–30 minutes of sustained flight using Li-ion battery chemistry (4S1P/4S2P).
-2. **Autonomy:** Integrate a companion computer (Raspberry Pi 4) to run ROS 2 nodes for future computer vision and object-tracking workloads.
+2. **Dual-Mode Autonomy:** Integrate a Raspberry Pi 4 companion computer to run ROS 2 nodes capable of executing a dual-mode AI pipeline: 
+   * **Mode 1 (Distributed):** Streaming video to a Ground Station GPU for heavy neural network processing (e.g., YOLOv8).
+   * **Mode 2 (Edge AI):** Running lightweight object tracking algorithms natively on the Pi 4 for true, RF-independent autonomy.
 3. **Digital HD Pipeline:** Utilize OpenHD over 5GHz Wi-Fi for low-latency digital video and bi-directional MAVLink telemetry without relying on closed-source ecosystems (e.g., DJI).
 4. **Digital Twin:** Establish a Gazebo (Harmonic) + ROS 2 + ArduPilot SITL simulation environment native to Ubuntu 22.04 for Reinforcement Learning (RL) and tracking algorithm training.
 
