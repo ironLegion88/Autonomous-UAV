@@ -78,38 +78,49 @@ flowchart LR
 
 ---
 
-## 4. The Distributed AI Architecture
+## 4. Dual-Mode Perception and AI Architecture
 
 With the CC and Camera finalized, the architectural flow of the autonomous tracking system was mapped out. 
 
-Given the 7-week project timeline and the limited compute headroom of the Pi 4 (after video encoding overhead), executing heavy neural networks (e.g., YOLOv8) onboard the drone is risky. Therefore, the architecture utilizes a **Distributed AI Pipeline**, offloading the heavy computer vision inference to the ground station.
+Given the computational limits of the Raspberry Pi 4 (which must reserve hardware resources for H.264 video encoding and ROS 2 middleware), a rigid single-architecture approach is a potential point of failure. To maximize flexibility, the software architecture is designed to operate in **two distinct modes**, selectable via ROS 2 launch parameters prior to flight.
 
-### 4.1 Data Flow Pipeline
-1.  **Perception:** The Pi Camera captures frames. The Pi 4 hardware encodes them to H.264.
-2.  **Transmission:** OpenHD broadcasts the digital frames over the 5GHz Wi-Fi link.
-3.  **Inference (Ground Station):** The Ground Station (running Ubuntu and an RTX 4070 GPU) receives the stream. A ROS 2 node ingests the frames, runs YOLO object detection, and calculates the target's centroid offset.
-4.  **Command:** A ROS 2 control node translates the centroid offset into MAVLink velocity commands (Pitch/Roll/Yaw) and routes them back through the OpenHD Wi-Fi link.
-5.  **Actuation:** ArduPilot on the SkyStars H7 executes the velocity commands to center the target in the frame.
+### 4.1 Mode 1: Distributed AI (Ground Station Processing)
+In this mode, the drone acts as a remote sensor and actuator, offloading heavy computer vision inference to the Ground Station.
+*   **Pipeline:** The Pi 4 encodes the camera feed and broadcasts it via OpenHD. The Ground Station (equipped with an RTX 4070 GPU) ingests the stream, runs heavy deep-learning models (like YOLOv8 or YOLOv11), calculates the centroid error, and transmits MAVLink velocity vectors back over the 5GHz link.
+*   **Advantages:** Allows for state-of-the-art, high-resolution neural network inference without thermal or CPU throttling on the drone.
+*   **Disadvantages:** Introduces round-trip network latency (~120ms to 180ms). If the 5GHz Wi-Fi link degrades, autonomous tracking is immediately lost.
+
+### 4.2 Mode 2: Edge AI (On-board Processing)
+In this mode, the drone achieves true autonomy. The Pi 4 intercepts the raw CSI camera frames, splits the pipeline, and processes the AI locally while simultaneously streaming video for human monitoring.
+*   **Pipeline:** The Pi 4 runs optimized, lightweight tracking algorithms (e.g., OpenCV CSRT/KCF trackers, color-blob detection, or quantized TFLite models) directly in its RAM. MAVLink velocity commands are sent locally via the physical UART connection to the flight controller. 
+*   **Advantages:** **Zero network latency** in the control loop. The drone will continue to track and follow the target even if the OpenHD video link back to the ground station is completely severed or jammed.
+*   **Disadvantages:** Limited to lower-resolution frames (e.g., 320x240) and simpler algorithms to prevent CPU max-out and thermal throttling on the Pi 4.
+
+### 4.3 Data Flow Pipeline (State Machine)
 
 ```mermaid
-sequenceDiagram
-    participant Cam as Pi Camera V2
-    participant Pi as Raspberry Pi 4 (Air)
-    participant GS as Ground Station (RTX 4070)
-    participant FC as SkyStars H7 (ArduPilot)
-
-    Cam->>Pi: Raw Video Frames
-    Note over Pi: H.264 Hardware Encoding
-    Pi->>GS: Broadcast Encoded Stream (5GHz OpenHD)
-    Note over GS: ROS 2 CV Bridge + YOLO Inference
-    Note over GS: Calculate Centroid Error
-    GS->>Pi: Send MAVLink Velocity Vectors (5GHz OpenHD)
-    Pi->>FC: Route MAVLink via UART (Telemetry)
-    Note over FC: Execute GUIDED Mode Commands
-    FC->>Cam: Drone moves to track object
+flowchart TD
+    CAM[Pi Camera V2 Raw Frames] --> SPLIT{ROS 2 Mode Selector}
+    
+    %% MODE 2: On-board AI
+    SPLIT -->|Mode 2: Edge AI| ONBOARD[Pi 4: OpenCV / TFLite Node]
+    ONBOARD -->|Calculate Centroid| VEL2[Generate Velocity Cmd]
+    VEL2 -->|Local UART| FC[SkyStars H7 Flight Controller]
+    
+    %% MODE 1: Ground Station AI
+    SPLIT -->|Mode 1: Distributed| ENC[Pi 4: H.264 Encoder]
+    ENC -->|5GHz Wi-Fi| GS[Ground Station RTX 4070]
+    GS -->|YOLOv8 Inference| VEL1[Generate Velocity Cmd]
+    VEL1 -->|5GHz Wi-Fi| FC
+    
+    %% Monitoring
+    ONBOARD -.->|Background Task| ENC
+    
+    style ONBOARD fill:#d4f9d8,stroke:#2a9d8f
+    style GS fill:#f9d0c4,stroke:#e63946
 ```
 
 ---
 
 ## 5. Conclusion
-The selection of the **Raspberry Pi 4 (4GB)** and the **Pi Camera Module 2** represents the safest, most reliable path for achieving a digital video link on a research drone. By respecting the software limitations of the OpenHD ecosystem (avoiding the Pi 5 and `libcamera`) and adopting a Distributed AI architecture, the drone's onboard compute load is optimized. This setup minimizes thermal output and power consumption, directly supporting the project's primary 30-minute endurance goal.
+The selection of the **Raspberry Pi 4 (4GB)** and the **Pi Camera Module 2** represents the safest, most reliable path for achieving a digital video link on a research drone. By respecting the software limitations of the OpenHD ecosystem and adopting a **Dual-Mode AI architecture**, the platform is incredibly versatile. It can leverage Ground Station GPUs for complex neural network research (Mode 1), while retaining the capability to run hard real-time, RF-independent tracking algorithms directly on the edge (Mode 2). This architecture minimizes thermal output while maximizing mission reliability.
