@@ -5,7 +5,6 @@ site_author: Your Name
 theme:
   name: material
   palette:
-    # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: indigo
@@ -13,7 +12,6 @@ theme:
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-    # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: indigo
@@ -61,4 +59,4 @@ nav:
       - Assembly & Wiring Guide: Assembly_and_Wiring_Guide.md
       - Structural Analysis: structural_analysis.md
   - Simulation (Digital Twin):
-      - Workspace Overview: ../simulation_ws/README_SIM.md
+      - Workspace Overview: Simulation_Overview.md
