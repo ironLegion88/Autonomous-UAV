@@ -1,4 +1,4 @@
-# Trade Study 03: Communication Architecture, RF Design, and AI Integration
+# Trade-off Study 03: Communication Architecture, RF Design, and AI Integration
 
 **Status:** Finalized  
 **Author:** Sarthak Rathi  
@@ -11,7 +11,7 @@ A standard FPV multirotor utilizes three distinct, single-purpose radio links: a
 
 For an autonomous object-tracking drone, the ground station (or onboard companion computer) requires a pristine, uncompressed, or cleanly encoded digital video feed to run OpenCV and YOLO-based AI algorithms. Analog video is highly susceptible to multipath interference and static, which drastically degrades computer vision accuracy. 
 
-The objective of this trade study is to evaluate video transmission systems, select the optimal network architecture for AI integration, and design an antenna layout that prevents cross-band interference between the video, telemetry, and control links.
+The objective of this trade-off study is to evaluate video transmission systems, select the optimal network architecture for AI integration, and design an antenna layout that prevents cross-band interference between the video, telemetry, and control links.
 
 ---
 
@@ -52,7 +52,7 @@ The build utilizes the **LB-LINK BL-M8812EU2** module.
 *   **MIMO:** 2x2 (Two transmit, two receive chains).
 *   **Chipset:** RTL8812EU. While OpenHD historically recommended the older `RTL8812AU` chips, the `EU` variant is a highly potent, cost-effective modern alternative fully supported by recent OpenHD kernel drivers. It provides physical PHY rates up to 867 Mbps, vastly exceeding the ~10 Mbps required for a 1080p video stream.
 
-*Critical Design Note:* Because the BL-M8812EU2 is a bare-board module (not a USB dongle), it interfaces directly via USB D+/D- pins. It draws up to **1.8A peak** during high-power transmission. It must be powered by the dedicated 5A XL4015 buck converter, not the Raspberry Pi's internal USB bus, to prevent voltage sags and module resets.
+*Critical Design Note:* Because the BL-M8812EU2 is a bare-board module (not a USB dongle), it interfaces directly via USB D+/D- pins. It draws up to **1.8A peak** during high-power transmission and must be powered by the dedicated 5A XL4015 buck converter, not the Raspberry Pi's internal USB bus, to prevent voltage sags and module resets.
 
 ---
 

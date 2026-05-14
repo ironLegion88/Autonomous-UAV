@@ -9,7 +9,7 @@
 ## 1. Introduction
 A critical component of this Independent Study Module (ISM) is the development of a "Digital Twin" to train and validate the autonomous object-tracking algorithms before physical deployment. Because flight testing a 1.5kg, 6-inch quadcopter running experimental AI code carries a high risk of catastrophic hardware failure, the entire perception-to-actuation loop must first be proven in simulation.
 
-This document details the rigorous trade study conducted to select the physics/rendering engine, and outlines the architecture of the native Ubuntu 22.04 ROS 2 + Gazebo workspace.
+This document details the rigorous trade-off study conducted to select the physics/rendering engine, and outlines the architecture of the native Ubuntu 22.04 ROS 2 + Gazebo workspace.
 
 ---
 
@@ -28,7 +28,7 @@ To train computer vision (CV) algorithms, the simulator must provide both accura
 | **System Resource Load** | **Low** | Extremely High | Moderate | Ultra-Low | High |
 
 ### 2.2 Architectural Decision: Phased Approach
-The research concluded that **Unreal Engine 5 (UE5) + Project Colosseum (AirSim Fork)** is the ultimate gold standard for this project, as it leverages Nanite and Lumen rendering to provide photorealistic environments for YOLO object-tracking validation. 
+The research concluded that **Unreal Engine 5 (UE5) + Project Colosseum (AirSim Fork)** is the best option for this project, as it leverages Nanite and Lumen rendering to provide photorealistic environments for YOLO object-tracking validation. 
 
 However, given the strict 2.5-month project timeline, compiling UE5 shaders, managing Windows-to-Linux communication bridges, and debugging unmerged Colosseum commits posed a severe schedule risk. 
 

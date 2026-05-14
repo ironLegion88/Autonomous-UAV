@@ -21,6 +21,7 @@ This mechanical flex induces high-frequency micro-oscillations throughout the ai
 **The Result:** The motors oscillate wildly, converting battery energy into heat rather than thrust. Research indicates that a highly flexible frame on a 6-inch drone can cause a **10% to 20% loss in total flight efficiency**, negating the benefits of an optimized endurance powertrain.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     subgraph Mechanical Domain
         THRUST[Motor Thrust & Wind Gusts] --> FLEX[Elastic Frame Deformation]
@@ -38,8 +39,8 @@ flowchart TD
         HEAT --> DRAIN((10#37; - 20#37; Flight Time Loss))
     end
     
-    style FLEX fill:#ffe6e6,stroke:#ff0000
-    style DRAIN fill:#ffe6e6,stroke:#ff0000
+    style FLEX fill:#ff4444,stroke:#ff0000,stroke-width:2px,color:#ffffff
+    style DRAIN fill:#ff4444,stroke:#ff0000,stroke-width:2px,color:#ffffff
 ```
 
 ---
@@ -57,6 +58,7 @@ To prevent PID-induced power drain, the chosen filament must possess a high Youn
 | **PA6-CF / PA6-GF** | **Maximum** | High | **Excellent** (>150°C)| Good | **Optimal** |
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 xychart-beta
     title "Structural Material Suitability Index for 6-Inch Frames"
     x-axis ["PETG", "PLA", "ABS", "ASA", "PA6-CF (Nylon)"]
@@ -68,7 +70,7 @@ xychart-beta
 *   **PETG:** Despite its excellent impact resistance and ease of printing, PETG is far too ductile. A 6-inch drone printed in PETG will suffer from severe tuning issues, oscillation, and poor endurance.
 *   **PLA / PLA-CF:** While stiff, PLA deforms under low heat. A 2807 motor operating during a 30-minute endurance flight will easily heat up past PLA's glass transition temperature (55°C), causing the motor mounts to melt mid-flight.
 *   **ASA (Acrylonitrile Styrene Acrylate):** The ideal baseline. It possesses the stiffness and thermal resistance of ABS but adds exceptional UV stability for outdoor flights. 
-*   **PA6-CF (Carbon Fiber Nylon):** The absolute gold standard for printed drones. The infusion of chopped carbon fibers drastically increases the tensile modulus, creating a frame rigid enough to rival standard carbon fiber plates, completely eliminating flex-induced PID inefficiencies.
+*   **PA6-CF (Carbon Fiber Nylon):** The best option for printed drones. The infusion of chopped carbon fibers drastically increases the tensile modulus, creating a frame rigid enough to rival standard carbon fiber plates, completely eliminating flex-induced PID inefficiencies.
 
 **Conclusion:** The primary structural frame and arms should be manufactured from **PA6-CF** (or PA6-GF). If carbon-nylon is unavailable due to printing constraints, **ASA** is the minimum acceptable alternative. 
 
@@ -87,6 +89,7 @@ Thermoplastic Polyurethane (TPU) is utilized exclusively for dampening and mount
 *   **TPU 87A / 83A (Ultra Soft):** Used explicitly for the Flight Controller bobbins and the Pi Camera mount. This durometer acts as a mechanical low-pass filter, isolating the gyroscopes and the CMOS sensor from the rigid frame's mechanical noise.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart LR
     subgraph PT["Powertrain (Rigid)"]
         M[2807 Motors] -->|High Freq Vib| ARM[PA6-CF Arms]
@@ -103,9 +106,10 @@ flowchart LR
         ISO_CAM -->|Zero Rolling Shutter| CV[Stable Bounding Boxes]
     end
     
-    style ARM fill:#e6e6e6,stroke:#333
-    style FRAME fill:#e6e6e6,stroke:#333
-    style ISO_FC fill:#d4f9d8,stroke:#2a9d8f
+    style ARM fill:#cccccc,stroke:#666666,stroke-width:2px,color:#000000
+    style FRAME fill:#cccccc,stroke:#666666,stroke-width:2px,color:#000000
+    style ISO_FC fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
+    style ISO_CAM fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
     style ISO_CAM fill:#d4f9d8,stroke:#2a9d8f
 ```
 
