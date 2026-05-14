@@ -34,7 +34,7 @@ markdown_extensions:
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed
-  - pymdownx.admonition
+  - admonition
   - pymdownx.details
   - attr_list
   - md_in_html
