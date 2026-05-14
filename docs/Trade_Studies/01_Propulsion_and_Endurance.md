@@ -31,17 +31,43 @@ Freestyle drones predominantly use tri-blade propellers for cornering grip and "
 | **Gemfan 6030** | 6-inch Bi-Blade | High | 28 – 34 min | Backup |
 | **Gemfan LR 6026-2**| 6-inch Bi-Blade | **Maximum** | **30 – 36 min** | **Selected** |
 
+```mermaid
+xychart-beta
+    title "Estimated Flight Time by Propeller Geometry (1.5kg AUW Model)"
+    x-axis ["5129 Tri-blade", "6030 Tri-blade", "6030 Bi-blade", "6026-2 Bi-blade"]
+    y-axis "Hover Time (Minutes)" 10 --> 40
+    bar [16, 26, 31, 34]
+```
+
 **Conclusion:** The **Gemfan LR 6026-2** was selected. The low pitch (2.6) and bi-blade design minimizes aerodynamic drag, offering up to a 30% theoretical efficiency gain over standard 5-inch tri-blades during steady-state hover.
 
 ---
 
 ## 3. Motor Selection (Stator Volume and KV)
 
-Standard FPV builds typically use 2207 or 2306 motors with a high KV (1750KV–2450KV). 
+Standard FPV builds typically use 2207 or 2306 motors with a high KV (1750KV–2450KV). Thrust table analysis revealed a critical flaw in using standard freestyle motors for 6-inch endurance props. 
 
 ### 3.1 Evaluating the 2306 Class
 My initial BoM included `2306 1750KV` motors. Thrust table analysis revealed a critical flaw: a 2306 stator lacks the low-end torque required to swing a 6-inch bi-blade efficiently. To overcome the rotational inertia of the larger prop, the 2306 motor draws excessive current, generating heat rather than thrust. 
 *Note: I modeled a software workaround using ArduPilot's `MOT_THST_MAX = 0.65` parameter to artificially limit a high KV motor to an effective ~1100KV. While mathematically viable, it does not fix the physical lack of torque.*
+
+```mermaid
+flowchart TD
+    subgraph Freestyle Motor
+    A[2306 1750KV] -->|Low Stator Volume| B[Low Torque at Low RPM]
+    B -->|Swinging 6-inch Prop| C[High Current Draw to overcome inertia]
+    C -->|Heat Loss| D((Poor Endurance))
+    end
+    
+    subgraph Endurance Motor
+    E[2807 1500KV] -->|High Stator Volume| F[High Torque at Low RPM]
+    F -->|Swinging 6-inch Prop| G[Low Current Draw]
+    G -->|Peak Efficiency Band| H(((High Endurance)))
+    end
+    
+    style D fill:#ffe6e6,stroke:#ff0000
+    style H fill:#e6ffe6,stroke:#00aa00
+```
 
 ### 3.2 Scaling Up: 2506 vs 2807
 To achieve optimal efficiency, the motor must hover the drone (producing ~350g of thrust) exactly at its peak efficiency curve.
@@ -60,7 +86,22 @@ The energy system dictates the absolute ceiling of endurance. The choice was bet
 *   **LiPo (e.g., 1300mAh 6S):** Offers massive discharge rates (100C+). Ideal for racing, but highly detrimental to endurance due to terrible energy density (Wh/kg).
 *   **Li-ion (e.g., 21700 cells):** Offers industry-leading energy density, but severely limited discharge rates (usually 3C to 10C max).
 
-Because the theoretical hover current of this drone is extremely low (14A – 18A total), a high discharge rate is irrelevant. The design mandates **Li-ion**.
+Because the theoretical hover current of this drone is extremely low (14A – 18A total), a high discharge rate is irrelevant. The design mandates **Li-ion** chemistry for its superior energy density.
+
+```mermaid
+flowchart LR
+    B[Battery Selection] --> LiPo[LiPo Chemistry]
+    B --> LiIon[Li-ion 21700 Chemistry]
+    
+    LiPo --> |100C+ Discharge Rate| HighP[High Peak Power]
+    LiPo --> |Low Wh/kg| LowE[Poor Endurance < 10m]
+    
+    LiIon --> |Max 45A-70A Discharge| LowP[Sufficient for Hover & Cruise]
+    LiIon --> |High Wh/kg| HighE[High Endurance > 25m]
+    
+    style LiPo fill:#ffe6e6,stroke:#ff6666
+    style LiIon fill:#e6ffe6,stroke:#00aa00
+```
 
 ### 4.2 Configuration: 4S1P vs. 4S2P
 I mathematically modeled two battery architectures based on modern 21700 cells (e.g., Molicel P45B or Samsung 50S):
@@ -85,6 +126,23 @@ A unique constraint of this project was utilizing a 3D-printed structural frame.
 If a frame is printed in a flexible material like standard **PETG** or **PLA**, the arms will flex under thrust. This induces high-frequency micro-oscillations. The flight controller's gyroscopes detect these vibrations, and the PID loop attempts to correct them by rapidly varying motor RPMs. 
 *   **Result:** The motors constantly accelerate and decelerate hundreds of times a second, drawing massive current spikes and dissipating energy as heat. Studies estimate a flexible frame can cause a **10% to 20% loss in total flight efficiency**.
 
+```mermaid
+flowchart TD
+    Flex[Flexible Frame e.g., PETG/PLA] -->|Motor Thrust Causes Flex| Vib[High-Frequency Micro-Oscillations]
+    Vib --> Gyro[Gyroscope Detects Mechanical Noise]
+    Gyro --> PID[Flight Controller PID Overcompensates]
+    PID --> RPM[Rapid Motor RPM Fluctuations]
+    RPM --> Heat[Energy Wasted as Heat in ESC/Motors]
+    Heat --> Loss((10 - 20 percent Flight Time Loss))
+    
+    Stiff[Stiff Frame e.g., ASA/PA6-CF] --> Damp[Vibrations Resisted]
+    Damp --> Smooth[Smooth Gyro Traces]
+    Smooth --> Eff((Efficient Motor Output))
+    
+    style Loss fill:#ffe6e6,stroke:#ff0000
+    style Eff fill:#e6ffe6,stroke:#00aa00
+```
+
 ### Material Selection
 To prevent this, the frame material must possess high stiffness and rigidity.
 1.  **PA6-CF (Nylon Carbon Fiber):** The absolute best choice. Extremely stiff, absorbs vibrations, and reduces PID workload. (Rejected only due to printing complexity/cost).
@@ -98,7 +156,7 @@ To prevent this, the frame material must possess high stiffness and rigidity.
 
 By abandoning FPV racing dogmas and optimizing for steady-state cruise, the finalized theoretical architecture achieves the 30-minute goal:
 
-*   **Motors:** 2807 1500KV (High torque, low-RPM efficiency).
-*   **Propellers:** Gemfan LR 6026-2 (Bi-blade, minimal aerodynamic drag).
-*   **Battery:** 4S Li-ion 21700 (High energy density, low C-rating requirement).
-*   **Frame Material:** ASA/PA6-CF (High stiffness to minimize electrical PID-correction losses).
+*   **Motors:** `2807 1500KV` (High torque, low-RPM efficiency).
+*   **Propellers:** `Gemfan LR 6026-2` (Bi-blade, minimal aerodynamic drag).
+*   **Battery:** `4S Li-ion 21700` (High energy density, low C-rating requirement).
+*   **Frame Material:** `ASA/PA6-CF` (High stiffness to minimize electrical PID-correction losses).
