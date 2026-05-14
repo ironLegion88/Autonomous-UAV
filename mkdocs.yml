@@ -60,3 +60,5 @@ nav:
       - Structural Analysis: structural_analysis.md
   - Simulation (Digital Twin):
       - Workspace Overview: Simulation_Overview.md
+  - Project Report:
+      - Final Project Report: Final_Report.md
