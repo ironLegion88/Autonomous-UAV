@@ -1,0 +1,1645 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Systems engineering, trade studies, and simulation architecture for a 6-inch autonomous quadcopter.">
+      
+      
+        <meta name="author" content="Your Name">
+      
+      
+      
+        <link rel="prev" href="../Power_Consumption_and_Budget/">
+      
+      
+        <link rel="next" href="../Simulation_Overview/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Assembly & Wiring Guide - Autonomous Long-Endurance UAV</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#integration-and-assembly-guide-6-inch-autonomous-uav" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Autonomous Long-Endurance UAV" class="md-header__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Autonomous Long-Endurance UAV
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Assembly & Wiring Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Trade_Studies/01_Propulsion_and_Endurance/" class="md-tabs__link">
+          
+  
+  
+  Systems Engineering & Trade Studies
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Architecture_Diagrams/electrical_wiring_schematic/" class="md-tabs__link">
+          
+  
+  
+  Architecture Diagrams
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../Power_Consumption_and_Budget/" class="md-tabs__link">
+          
+  
+  
+  Integration Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Simulation_Overview/" class="md-tabs__link">
+          
+  
+  
+  Simulation (Digital Twin)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Final_Report/" class="md-tabs__link">
+          
+  
+  
+  Project Report
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Autonomous Long-Endurance UAV" class="md-nav__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Autonomous Long-Endurance UAV
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Systems Engineering & Trade Studies
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Systems Engineering & Trade Studies
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/01_Propulsion_and_Endurance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Propulsion & Aerodynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/02_Flight_Controller_Stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flight Controller Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/03_Communication_Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communication & RF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/04_Companion_Computer_AI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion Compute & AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/electrical_wiring_schematic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electrical Schematic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/software_data_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Data Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/openhd_network_topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/system_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Power_Consumption_and_Budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Consumption & Budget
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assembly & Wiring Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assembly & Wiring Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-integration-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Integration Philosophy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-wire-gauge-standards-and-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Wire Gauge Standards and Routing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-power-distribution-and-filtering-the-5v-rail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power Distribution and Filtering (The 5V Rail)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Power Distribution and Filtering (The 5V Rail)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-step-by-step-power-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Step-by-Step Power Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-signal-and-data-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Signal and Data Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Signal and Data Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-wi-fi-module-bl-m8812eu2-usb-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Wi-Fi Module (BL-M8812EU2) USB Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-flight-controller-uart-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Flight Controller UART Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rf-architecture-and-antenna-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. RF Architecture and Antenna Placement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. RF Architecture and Antenna Placement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-rules-for-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Rules for Placement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mechanical-assembly-and-mounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Mechanical Assembly and Mounting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-pre-flight-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Pre-Flight Validation Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../structural_analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structural Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation (Digital Twin)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Simulation (Digital Twin)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Simulation_Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Report
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Report
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Final_Report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Final Project Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-integration-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Integration Philosophy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-wire-gauge-standards-and-routing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Wire Gauge Standards and Routing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-power-distribution-and-filtering-the-5v-rail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Power Distribution and Filtering (The 5V Rail)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Power Distribution and Filtering (The 5V Rail)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-step-by-step-power-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Step-by-Step Power Wiring
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-signal-and-data-wiring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Signal and Data Wiring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Signal and Data Wiring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-wi-fi-module-bl-m8812eu2-usb-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Wi-Fi Module (BL-M8812EU2) USB Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-flight-controller-uart-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Flight Controller UART Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-rf-architecture-and-antenna-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. RF Architecture and Antenna Placement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. RF Architecture and Antenna Placement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-rules-for-placement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Rules for Placement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mechanical-assembly-and-mounting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Mechanical Assembly and Mounting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-pre-flight-validation-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Pre-Flight Validation Checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="integration-and-assembly-guide-6-inch-autonomous-uav">Integration and Assembly Guide: 6-Inch Autonomous UAV<a class="headerlink" href="#integration-and-assembly-guide-6-inch-autonomous-uav" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> Physical Airframe 80% Assembled | Electrical Integration Pending<br />
+<strong>Author:</strong> Sarthak Rathi<br />
+<strong>Methodology:</strong> Hardware packaging, electrical harness layout, RF isolation, and pre-flight validation protocols.</p>
+<hr />
+<h2 id="1-introduction-integration-philosophy">1. Introduction &amp; Integration Philosophy<a class="headerlink" href="#1-introduction-integration-philosophy" title="Permanent link">&para;</a></h2>
+<p>This document outlines the standard operating procedures for the physical assembly and electrical wiring of the autonomous drone platform. Because the platform combines high-current propulsion (up to 60A peak) with sensitive digital avionics (Raspberry Pi 4, OpenHD Wi-Fi), improper wiring will result in ground loops, brown-outs, and catastrophic system failures in flight.</p>
+<p>The integration architecture follows three primary engineering directives:
+1. <strong>Power Isolation:</strong> Complete decoupling of the 5V avionics rail from the flight controller’s internal BEC.
+2. <strong>RF Separation:</strong> Spatial maximization between the 5GHz digital video transmission and 2.4GHz control links.
+3. <strong>Vibration Mitigation:</strong> Mechanical isolation to prevent rigid-frame resonance from degrading the Flight Controller's IMU and the Pi Camera's optical stability.</p>
+<hr />
+<h2 id="2-wire-gauge-standards-and-routing">2. Wire Gauge Standards and Routing<a class="headerlink" href="#2-wire-gauge-standards-and-routing" title="Permanent link">&para;</a></h2>
+<p>Using incorrect wire gauges introduces electrical resistance, causing voltage drops under load. The following standards have been established for the wiring harness based on peak continuous current draws.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Subsystem Connection</th>
+<th style="text-align: left;">Target Gauge (AWG)</th>
+<th style="text-align: left;">Max Current Capacity</th>
+<th style="text-align: left;">Insulation Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Battery → Main ESC Pads</strong></td>
+<td style="text-align: left;">12 AWG</td>
+<td style="text-align: left;">~60A+</td>
+<td style="text-align: left;">High-Flex Silicone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ESC → Motors</strong></td>
+<td style="text-align: left;">20 AWG</td>
+<td style="text-align: left;">~15A</td>
+<td style="text-align: left;">High-Flex Silicone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Battery → XL4015 Buck Converter</strong></td>
+<td style="text-align: left;">16 - 18 AWG</td>
+<td style="text-align: left;">~10A</td>
+<td style="text-align: left;">Silicone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Buck 5V Output → Pi 4 &amp; Wi-Fi</strong></td>
+<td style="text-align: left;">20 AWG</td>
+<td style="text-align: left;">~5A</td>
+<td style="text-align: left;">Silicone</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Signal Wires (UART, GPS, ELRS)</strong></td>
+<td style="text-align: left;">26 - 30 AWG</td>
+<td style="text-align: left;">&lt; 1A</td>
+<td style="text-align: left;">PTFE or Silicone</td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>xychart-beta
+    title "Maximum Safe Current Capacity by Wire Gauge (Silicone Insulation)"
+    x-axis ["12 AWG (Battery)", "16 AWG (Buck Input)", "20 AWG (Motors/Pi)", "28 AWG (Signals)"]
+    y-axis "Amperage Limit (A)" 0 --&gt; 90
+    bar [88, 35, 11, 1.5]</code></pre>
+<hr />
+<h2 id="3-power-distribution-and-filtering-the-5v-rail">3. Power Distribution and Filtering (The 5V Rail)<a class="headerlink" href="#3-power-distribution-and-filtering-the-5v-rail" title="Permanent link">&para;</a></h2>
+<p>The most critical step in the assembly is the 5V avionics rail. The Raspberry Pi 4 and the RTL8812EU Wi-Fi module will draw transient spikes up to 3.5A total. <strong>These are not to be powered from the SkyStars H7 FC.</strong></p>
+<h3 id="31-step-by-step-power-wiring">3.1 Step-by-Step Power Wiring<a class="headerlink" href="#31-step-by-step-power-wiring" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Main Pads:</strong> Solder the 12 AWG XT60 pigtail to the KM60 ESC main pads. </li>
+<li><strong>ESC Capacitor:</strong> Directly solder the <code>1000uF 50V Low-ESR Capacitor</code> across the ESC battery pads. <em>Reason: Absorbs high-frequency regenerative braking voltage spikes from the ESC MOSFETs that could otherwise fry the step-down converter.</em></li>
+<li><strong>Buck Converter Branch:</strong> Solder a 16 AWG wire branch from the ESC battery pads to the <code>XL4015 Buck Converter</code> input.</li>
+<li><strong>Voltage Calibration (CRITICAL):</strong> Before connecting the Pi 4, power the system with a battery and use a multimeter to dial the XL4015 potentiometer to <strong>exactly 5.1V</strong>.</li>
+<li><strong>LC Filtering:</strong> Route the 5.1V output through the <code>RushFPV Blade Power Filter Board</code>. This removes low-frequency ripple generated by the motors.</li>
+<li><strong>Final Split:</strong> From the filter board's output, run 20 AWG wires to the Raspberry Pi 4 (via 5V/GND GPIO pins) and the RTL8812EU Wi-Fi module.</li>
+</ol>
+<pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+flowchart TD
+    BAT[4S Li-ion XT60] --&gt;|12 AWG| ESC[KM60 60A ESC]
+    BAT --&gt;|16 AWG| BUCK[XL4015 Buck Converter]
+
+    subgraph Propulsion [Propulsion Noise Zone]
+        ESC --- CAP[1000uF 50V Low-ESR Cap]
+        ESC --&gt;|20 AWG| M[2807 Motors]
+    end
+
+    subgraph Avionics [Clean Avionics Rail]
+        BUCK --&gt;|Dial to 5.1V| FILT[RushFPV LC Filter]
+        FILT --&gt;|Split 20 AWG| PI[Raspberry Pi 4]
+        FILT --&gt;|Split 20 AWG| WIFI[BL-M8812EU2 Wi-Fi]
+    end
+
+    style Propulsion fill:#ff6666,stroke:#ff4444,stroke-width:2px,color:#ffffff
+    style Avionics fill:#66cc66,stroke:#44aa44,stroke-width:2px,color:#000000</code></pre>
+<hr />
+<h2 id="4-signal-and-data-wiring">4. Signal and Data Wiring<a class="headerlink" href="#4-signal-and-data-wiring" title="Permanent link">&para;</a></h2>
+<p>With power established, the data connections must be routed between the avionics and the flight stack.</p>
+<h3 id="41-wi-fi-module-bl-m8812eu2-usb-integration">4.1 Wi-Fi Module (BL-M8812EU2) USB Integration<a class="headerlink" href="#41-wi-fi-module-bl-m8812eu2-usb-integration" title="Permanent link">&para;</a></h3>
+<p>Because the Wi-Fi module is a bare development board, it does not have a standard USB-A connector. The FPC (J3) connector is fragile and unnecessary.
+*   <strong>Action:</strong> Direct solder to the USB interface pads.
+*   <strong>Wiring:</strong> Solder the <code>D+</code> and <code>D-</code> pads on the Wi-Fi module directly to a stripped USB cable, and plug the USB-A end into the Raspberry Pi 4's <strong>USB 2.0 port</strong> (or solder directly to the Pi's underside USB test pads to save weight and space).</p>
+<h3 id="42-flight-controller-uart-mapping">4.2 Flight Controller UART Mapping<a class="headerlink" href="#42-flight-controller-uart-mapping" title="Permanent link">&para;</a></h3>
+<p>The SkyStars H7 requires specific UART mapping for serial communications. Wires should be loosely braided to reduce electromagnetic interference (EMI).</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Peripheral</th>
+<th style="text-align: left;">FC Connection</th>
+<th style="text-align: left;">Protocol / Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>RP4TD-M (ELRS)</strong></td>
+<td style="text-align: left;">UART 1</td>
+<td style="text-align: left;"><code>TX -&gt; RX1</code>, <code>RX -&gt; TX1</code>, 5V, GND. (CRSF Protocol)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>M100 Pro GPS</strong></td>
+<td style="text-align: left;">UART 2 + I2C</td>
+<td style="text-align: left;"><code>TX -&gt; RX2</code>, <code>RX -&gt; TX2</code>, SCL, SDA, 5V, GND.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Raspberry Pi 4</strong></td>
+<td style="text-align: left;">UART 3</td>
+<td style="text-align: left;"><code>TX -&gt; RX3</code>, <code>RX -&gt; TX3</code>, GND. (MAVLink telemetry routing).</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note on Grounding: The Pi 4 and the Flight Controller must share a common ground reference. Ensure the ground pin on the UART connection is securely soldered.</em></p>
+<hr />
+<h2 id="5-rf-architecture-and-antenna-placement">5. RF Architecture and Antenna Placement<a class="headerlink" href="#5-rf-architecture-and-antenna-placement" title="Permanent link">&para;</a></h2>
+<p>Antenna placement on a 6-inch quadcopter is severely constrained. Because the drone broadcasts 5GHz video (OpenHD) and receives 2.4GHz control (ELRS), poor placement will lead to RF desensitization (the "shouting next to a whisper" effect).</p>
+<h3 id="51-rules-for-placement">5.1 Rules for Placement<a class="headerlink" href="#51-rules-for-placement" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>ELRS Antennas (2.4GHz):</strong> Mounted on the rear arms in a V-shape or T-shape using TPU mounts. Keep the active elements away from the carbon/nylon frame to avoid detuning.</li>
+<li><strong>OpenHD Antennas (5GHz):</strong> Mounted vertically on the top plate, spaced at least 90-degrees apart to leverage 2x2 MIMO polarization diversity.</li>
+<li><strong>GPS Module:</strong> Mounted on a 10cm–15cm TPU mast. The GPS ceramic antenna is highly sensitive to the broadband RF noise generated by the RunCam/Pi Camera ribbon cable and the Raspberry Pi's CPU.</li>
+</ol>
+<p><pre class="mermaid"><code>block-beta
+  columns 3
+  space:1 GPS_Mast("GPS / Compass (Elevated)") space:1
+  OpenHD_Ant1("5GHz Dipole (Vertical)") Pi4("Raspberry Pi 4 + Camera") OpenHD_Ant2("5GHz Dipole (Horizontal)")
+  space:1 FC_ESC("Flight Stack (H7 + ESC)") space:1
+  ELRS_Ant1("2.4GHz Antenna (Left Arm)") space:1 ELRS_Ant2("2.4GHz Antenna (Right Arm)")</code></pre>
+<em>Spatial distribution map: Ensuring maximum physical separation between the 5GHz MIMO transmitting elements and the 2.4GHz receiver.</em></p>
+<hr />
+<h2 id="6-mechanical-assembly-and-mounting">6. Mechanical Assembly and Mounting<a class="headerlink" href="#6-mechanical-assembly-and-mounting" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Frame Material:</strong> The airframe is 3D printed. While ASA or PA6-CF is recommended for rigidity, all structural screws must be secured using <strong>medium-strength threadlocker (Loctite Blue 242)</strong>. <em>Never use threadlocker on polycarbonate or directly touching ABS/ASA parts, as it degrades the plastic.</em></li>
+<li><strong>Vibration Damping:</strong> The SkyStars H7 FC and the Raspberry Pi 4 must be mounted using silicone vibration gummies. This prevents high-frequency motor noise from aliasing into the gyro readings and corrupting the ArduPilot EKF estimation.</li>
+<li><strong>Camera Mounting:</strong> The Pi Camera V2 must be hard-mounted to the frame using a rigid TPU/PETG bracket. If the camera vibrates independently of the flight controller, the Computer Vision bounding-box calculations will conflict with the drone's IMU data, causing the autonomous tracking to oscillate.</li>
+</ul>
+<hr />
+<h2 id="7-pre-flight-validation-checklist">7. Pre-Flight Validation Checklist<a class="headerlink" href="#7-pre-flight-validation-checklist" title="Permanent link">&para;</a></h2>
+<p>Before applying battery power to the fully integrated system, the following hardware checks must be executed:</p>
+<ul>
+<li>[ ] <strong>Continuity Check (Main Power):</strong> Use a multimeter in continuity mode across the main XT60 connector. It should read open-circuit (O.L). A beep indicates a fatal short.</li>
+<li>[ ] <strong>Continuity Check (5V Rail):</strong> Test continuity across the 5V and GND pins on the Raspberry Pi GPIO.</li>
+<li>[ ] <strong>Voltage Verification:</strong> Unplug the Pi 4 and Wi-Fi module. Plug in a battery. Measure the XL4015 output to guarantee it sits at exactly 5.0V - 5.1V.</li>
+<li>[ ] <strong>Smoke Stopper:</strong> For the first power-up with all components attached, utilize an inline Smoke Stopper (current-limiting PTC fuse) between the battery and the drone. If there is a hidden short, the fuse will trip before anything is destroyed.</li>
+<li>[ ] <strong>Conformal Coating:</strong> Once testing is successful, coat the FC, ESC, Pi 4, and Wi-Fi module with a silicone conformal coating (e.g., MG Chemicals 422B) to protect against moisture and conductive debris. <em>Note: Mask off the barometer hole on the FC, USB ports, and the camera lens before coating.</em></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

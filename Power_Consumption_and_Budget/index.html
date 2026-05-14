@@ -1,0 +1,1623 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Systems engineering, trade studies, and simulation architecture for a 6-inch autonomous quadcopter.">
+      
+      
+        <meta name="author" content="Your Name">
+      
+      
+      
+        <link rel="prev" href="../Architecture_Diagrams/system_architecture/">
+      
+      
+        <link rel="next" href="../Assembly_and_Wiring_Guide/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Power Consumption & Budget - Autonomous Long-Endurance UAV</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#electrical-power-consumption-and-endurance-modeling" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Autonomous Long-Endurance UAV" class="md-header__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Autonomous Long-Endurance UAV
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Power Consumption & Budget
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Trade_Studies/01_Propulsion_and_Endurance/" class="md-tabs__link">
+          
+  
+  
+  Systems Engineering & Trade Studies
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Architecture_Diagrams/electrical_wiring_schematic/" class="md-tabs__link">
+          
+  
+  
+  Architecture Diagrams
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Integration Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Simulation_Overview/" class="md-tabs__link">
+          
+  
+  
+  Simulation (Digital Twin)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../Final_Report/" class="md-tabs__link">
+          
+  
+  
+  Project Report
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Autonomous Long-Endurance UAV" class="md-nav__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Autonomous Long-Endurance UAV
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Systems Engineering & Trade Studies
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Systems Engineering & Trade Studies
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/01_Propulsion_and_Endurance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Propulsion & Aerodynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/02_Flight_Controller_Stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flight Controller Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/03_Communication_Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communication & RF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Trade_Studies/04_Companion_Computer_AI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion Compute & AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/electrical_wiring_schematic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electrical Schematic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/software_data_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Data Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/openhd_network_topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Architecture_Diagrams/system_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Consumption & Budget
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Consumption & Budget
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-power-distribution-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Power Distribution Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-avionics-power-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Avionics Power Budget
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Avionics Power Budget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estimated-current-draw-at-5v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimated Current Draw (at 5V)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-propulsion-power-and-flight-time-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Propulsion Power and Flight Time Modeling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Propulsion Power and Flight Time Modeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hover-thrust-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hover Thrust Assumptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#battery-options-evaluated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Battery Options Evaluated
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-draw-endurance-math" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Draw &amp; Endurance Math
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-propeller-efficiency-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Propeller Efficiency Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-c-rating-safety-margin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. C-Rating Safety Margin
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Assembly_and_Wiring_Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assembly & Wiring Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../structural_analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structural Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation (Digital Twin)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Simulation (Digital Twin)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Simulation_Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Report
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Report
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Final_Report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Final Project Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-power-distribution-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Power Distribution Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-avionics-power-budget" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Avionics Power Budget
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Avionics Power Budget">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estimated-current-draw-at-5v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimated Current Draw (at 5V)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-propulsion-power-and-flight-time-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Propulsion Power and Flight Time Modeling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Propulsion Power and Flight Time Modeling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hover-thrust-assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hover Thrust Assumptions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#battery-options-evaluated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Battery Options Evaluated
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#current-draw-endurance-math" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Draw &amp; Endurance Math
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-propeller-efficiency-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Propeller Efficiency Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-c-rating-safety-margin" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. C-Rating Safety Margin
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="electrical-power-consumption-and-endurance-modeling">Electrical Power Consumption and Endurance Modeling<a class="headerlink" href="#electrical-power-consumption-and-endurance-modeling" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> Theoretical Analysis &amp; Component Validation<br />
+<strong>Methodology:</strong> Thrust-stand datasheet extrapolation, component TDP (Thermal Design Power) analysis, and C-rating feasibility modeling.</p>
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<p>Endurance in a multirotor system is fundamentally an optimization of the $Energy / Power$ ratio. Unlike freestyle FPV drones, which prioritize peak burst current for acrobatic maneuvers, an autonomous research drone must minimize continuous hover current to maximize flight time. </p>
+<p>Because physical hover testing has not yet been conducted, this document presents the rigorous theoretical models used to design the drone's power distribution network, size the voltage regulators, and select the optimal Li-ion battery chemistry.</p>
+<hr />
+<h2 id="2-power-distribution-architecture">2. Power Distribution Architecture<a class="headerlink" href="#2-power-distribution-architecture" title="Permanent link">&para;</a></h2>
+<p>A critical design requirement was safely powering a Raspberry Pi 4 and dual high-power Wi-Fi adapters without browning out the Flight Controller. Relying on the Flight Controller's onboard 5V BEC (typically rated for 2A–3A) to power a Raspberry Pi is a primary cause of in-flight failure in DIY autonomous drones.</p>
+<p>To prevent this, the power architecture physically decouples the avionics load from the flight control load via a dedicated step-down (buck) converter.</p>
+<pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+flowchart TD
+    BAT[6S / 4S Li-ion Battery] --&gt; ESC[SkyStars 60A 4-in-1 ESC]
+    BAT --&gt; BUCK[XL4016 Buck Converter 5V/5A]
+
+    ESC --&gt; M1((Motor 1: 2807))
+    ESC --&gt; M2((Motor 2: 2807))
+    ESC --&gt; M3((Motor 3: 2807))
+    ESC --&gt; M4((Motor 4: 2807))
+    ESC -.-&gt;|VBAT| FC[SkyStars H7 Flight Controller]
+
+    BUCK --&gt; FILTER[RushFPV Blade LC Filter]
+    FILTER --&gt; PI5V[5V Avionics Rail]
+
+    PI5V --&gt; PI[Raspberry Pi 4]
+    PI5V --&gt; WIFI[RTL8812EU Wi-Fi Module]
+
+    FC --&gt; GPS[M10 GPS + Compass]
+    FC --&gt; ELRS[Radiomaster RP4TD-M Receiver]
+
+    classDef power fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000;
+    classDef avionics fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff;
+    classDef propulsion fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000;
+
+    class BAT,BUCK,FILTER power;
+    class PI,WIFI,GPS,ELRS avionics;
+    class ESC,M1,M2,M3,M4 propulsion;</code></pre>
+<hr />
+<h2 id="3-avionics-power-budget">3. Avionics Power Budget<a class="headerlink" href="#3-avionics-power-budget" title="Permanent link">&para;</a></h2>
+<p>The continuous electrical load of the onboard compute and communications hardware acts as a parasitic drain on the battery, effectively reducing available flight time.</p>
+<h3 id="estimated-current-draw-at-5v">Estimated Current Draw (at 5V)<a class="headerlink" href="#estimated-current-draw-at-5v" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Component</th>
+<th style="text-align: left;">Nominal Draw (A)</th>
+<th style="text-align: left;">Peak Draw (A)</th>
+<th style="text-align: left;">Max Power (W)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Raspberry Pi 4 (4GB)</strong></td>
+<td style="text-align: left;">1.2 A</td>
+<td style="text-align: left;">3.0 A</td>
+<td style="text-align: left;">15.0 W</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RTL8812EU Wi-Fi (Tx Mode)</strong></td>
+<td style="text-align: left;">0.8 A</td>
+<td style="text-align: left;">1.8 A</td>
+<td style="text-align: left;">9.0 W</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Pi Camera V2</strong></td>
+<td style="text-align: left;">0.2 A</td>
+<td style="text-align: left;">0.25 A</td>
+<td style="text-align: left;">1.25 W</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Flight Controller + GPS + ELRS</strong></td>
+<td style="text-align: left;">0.3 A</td>
+<td style="text-align: left;">0.5 A</td>
+<td style="text-align: left;">2.5 W</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total Avionics Load @ 5V</strong></td>
+<td style="text-align: left;"><strong>~2.5 A</strong></td>
+<td style="text-align: left;"><strong>~5.55 A</strong></td>
+<td style="text-align: left;"><strong>~27.75 W</strong></td>
+</tr>
+</tbody>
+</table>
+<p><em>Analysis:</em> The XL4016 Buck Converter is rated for <strong>8A continuous</strong>. During normal operation (OpenHD encoding + tracking), the system will draw ~2.5A to 3.0A, remaining safely within the regulator's thermal and electrical limits. </p>
+<pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff'}, 'pie': {'useMaxWidth': true}}}%%
+pie title "Avionics Power Distribution (Peak Load)"
+    "Raspberry Pi 4 CPU/GPU" : 54
+    "RTL8812EU Wi-Fi Tx" : 32
+    "Flight Controller &amp; Sensors" : 9
+    "Camera Payload" : 5</code></pre>
+<hr />
+<h2 id="4-propulsion-power-and-flight-time-modeling">4. Propulsion Power and Flight Time Modeling<a class="headerlink" href="#4-propulsion-power-and-flight-time-modeling" title="Permanent link">&para;</a></h2>
+<p>The drone's All-Up Weight (AUW) dictates the required thrust per motor to maintain a hover. The relationship between thrust and power is non-linear; as disk loading increases, aerodynamic efficiency decreases. </p>
+<h3 id="hover-thrust-assumptions">Hover Thrust Assumptions<a class="headerlink" href="#hover-thrust-assumptions" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Target Hover Thrust:</strong> Drone AUW</li>
+<li><strong>Thrust per Motor:</strong> $AUW / 4$</li>
+<li><strong>Motors:</strong> Emax ECO II 2807 1500KV</li>
+<li><strong>Propellers:</strong> Gemfan LR 6026-2 (Bi-blade, highly efficient for low RPM).</li>
+</ul>
+<h3 id="battery-options-evaluated">Battery Options Evaluated<a class="headerlink" href="#battery-options-evaluated" title="Permanent link">&para;</a></h3>
+<p>The physical airframe bay and center-of-gravity (CG) was constrained to fit a <strong>4S1P</strong> pack. However, a <strong>4S2P</strong> pack was modeled mathematically to represent the platform's theoretical maximum endurance.</p>
+<ol>
+<li><strong>4S1P Li-ion (Molicel P45B):</strong> 4500mAh | 300g | 45A Discharge | AUW: ~1.2 kg</li>
+<li><strong>4S2P Li-ion (Samsung 50S):</strong> 10000mAh | 600g | 70A Discharge | AUW: ~1.5 kg</li>
+</ol>
+<h3 id="current-draw-endurance-math">Current Draw &amp; Endurance Math<a class="headerlink" href="#current-draw-endurance-math" title="Permanent link">&para;</a></h3>
+<p>$Hover_Time = \left( \frac{Battery_Capacity_Ah \times Usable_Capacity_Factor}{Total_Hover_Current_A} \right) \times 60$
+<em>(Assuming a safe 80% discharge rule for Li-ion cells to prevent voltage sag).</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: left;">4S1P Configuration (Built)</th>
+<th style="text-align: left;">4S2P Configuration (Modeled)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Total AUW</strong></td>
+<td style="text-align: left;">~1.20 kg</td>
+<td style="text-align: left;">~1.50 kg</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Required Thrust per Motor</strong></td>
+<td style="text-align: left;">300 g</td>
+<td style="text-align: left;">375 g</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Propulsion Current (Total)</strong></td>
+<td style="text-align: left;">~14.0 A</td>
+<td style="text-align: left;">~19.0 A</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Avionics Current (at 14.8V)</strong></td>
+<td style="text-align: left;">~1.2 A</td>
+<td style="text-align: left;">~1.2 A</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Total System Current Draw</strong></td>
+<td style="text-align: left;"><strong>15.2 A</strong></td>
+<td style="text-align: left;"><strong>20.2 A</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Usable Battery Capacity</strong></td>
+<td style="text-align: left;">3.6 Ah (80% of 4.5)</td>
+<td style="text-align: left;">8.0 Ah (80% of 10)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Theoretical Flight Time</strong></td>
+<td style="text-align: left;"><strong>~14.2 Minutes</strong></td>
+<td style="text-align: left;"><strong>~23.7 Minutes</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-propeller-efficiency-comparison">5. Propeller Efficiency Comparison<a class="headerlink" href="#5-propeller-efficiency-comparison" title="Permanent link">&para;</a></h2>
+<p>Using 2807 motors, selecting the correct propeller is the single largest variable in total endurance. High-pitch tri-blades (freestyle props) require significantly more torque, drawing excess current. The model below visualizes the theoretical flight time penalties of aggressive propellers on the 4S2P configuration.</p>
+<p>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+<pre class="mermaid"><code>xychart-beta
+    title "Theoretical Endurance vs. Propeller Geometry (4S2P 1.5kg AUW)"
+    x-axis ["Gemfan 5129 Tri", "Gemfan 6030 Tri", "Gemfan 6030 Bi", "Gemfan 6026 Bi"]
+    y-axis "Estimated Flight Time (Minutes)" 5 --&gt; 30
+    bar [15, 18, 22, 24]</code></pre>
+<strong>Conclusion:</strong> The <strong>Gemfan LR 6026-2</strong> bi-blade propeller was chosen for the build. Moving from a standard 5-inch freestyle prop (5129) to a 6-inch low-pitch bi-blade yields a theoretical efficiency gain of nearly 60% in sustained hover time.</p>
+<h2 id="6-c-rating-safety-margin">6. C-Rating Safety Margin<a class="headerlink" href="#6-c-rating-safety-margin" title="Permanent link">&para;</a></h2>
+<p>Lithium-ion batteries possess immense energy density but low discharge rates compared to LiPo batteries. It is vital to ensure the drone's peak current does not exceed the battery's maximum Continuous Discharge Rate (CDR).</p>
+<ul>
+<li><strong>4S1P (Molicel P45B):</strong> CDR = 45A. </li>
+<li><strong>Drone Peak Current Draw (Full Throttle):</strong> Limited via ArduPilot <code>MOT_THST_MAX</code> to prevent exceeding 40A total system draw.</li>
+<li><strong>Verdict:</strong> The battery operates at ~35% capacity during hover (15.2A / 45A), keeping cell temperatures low and ensuring safe autonomous operation.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

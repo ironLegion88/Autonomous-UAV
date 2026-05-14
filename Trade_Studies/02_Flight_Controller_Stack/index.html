@@ -1,0 +1,1633 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Systems engineering, trade studies, and simulation architecture for a 6-inch autonomous quadcopter.">
+      
+      
+        <meta name="author" content="Your Name">
+      
+      
+      
+        <link rel="prev" href="../01_Propulsion_and_Endurance/">
+      
+      
+        <link rel="next" href="../03_Communication_Architecture/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Flight Controller Stack - Autonomous Long-Endurance UAV</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#trade-off-study-02-flight-controller-stack-firmware-and-avionics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Autonomous Long-Endurance UAV" class="md-header__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Autonomous Long-Endurance UAV
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Flight Controller Stack
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01_Propulsion_and_Endurance/" class="md-tabs__link">
+          
+  
+  
+  Systems Engineering & Trade Studies
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Architecture_Diagrams/electrical_wiring_schematic/" class="md-tabs__link">
+          
+  
+  
+  Architecture Diagrams
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Power_Consumption_and_Budget/" class="md-tabs__link">
+          
+  
+  
+  Integration Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Simulation_Overview/" class="md-tabs__link">
+          
+  
+  
+  Simulation (Digital Twin)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Final_Report/" class="md-tabs__link">
+          
+  
+  
+  Project Report
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Autonomous Long-Endurance UAV" class="md-nav__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Autonomous Long-Endurance UAV
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Systems Engineering & Trade Studies
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Systems Engineering & Trade Studies
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Propulsion_and_Endurance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Propulsion & Aerodynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flight Controller Stack
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flight Controller Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-firmware-architecture-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Firmware Architecture Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Firmware Architecture Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-capability-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Capability Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-decision-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Decision Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-flight-controller-hardware-silicon-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Flight Controller Hardware (Silicon Constraints)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Flight Controller Hardware (Silicon Constraints)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-1mb-flash-limitation-f405-vs-h743" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The 1MB Flash Limitation (F405 vs. H743)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-form-factor-selection-pixhawk-vs-fpv-stacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Form Factor Selection (Pixhawk vs. FPV Stacks)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-final-fc-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Final FC Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-peripherals-and-communications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Peripherals and Communications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Peripherals and Communications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-radio-receiver-crsf-vs-pwm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Radio Receiver (CRSF vs. PWM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-gps-magnetometer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 GPS &amp; Magnetometer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-architectural-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Architectural Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_Communication_Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communication & RF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_Companion_Computer_AI/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion Compute & AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/electrical_wiring_schematic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electrical Schematic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/software_data_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Data Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/openhd_network_topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/system_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Power_Consumption_and_Budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Consumption & Budget
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Assembly_and_Wiring_Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assembly & Wiring Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../structural_analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structural Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation (Digital Twin)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Simulation (Digital Twin)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Simulation_Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Report
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Report
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Final_Report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Final Project Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-firmware-architecture-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Firmware Architecture Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Firmware Architecture Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-capability-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Capability Comparison
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-decision-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Decision Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-flight-controller-hardware-silicon-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Flight Controller Hardware (Silicon Constraints)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Flight Controller Hardware (Silicon Constraints)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-1mb-flash-limitation-f405-vs-h743" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The 1MB Flash Limitation (F405 vs. H743)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-form-factor-selection-pixhawk-vs-fpv-stacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Form Factor Selection (Pixhawk vs. FPV Stacks)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-final-fc-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Final FC Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-peripherals-and-communications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Peripherals and Communications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Peripherals and Communications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-radio-receiver-crsf-vs-pwm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Radio Receiver (CRSF vs. PWM)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-gps-magnetometer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 GPS &amp; Magnetometer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-architectural-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Architectural Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="trade-off-study-02-flight-controller-stack-firmware-and-avionics">Trade-off Study 02: Flight Controller Stack, Firmware, and Avionics<a class="headerlink" href="#trade-off-study-02-flight-controller-stack-firmware-and-avionics" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> Finalized<br />
+<strong>Author:</strong> Sarthak Rathi<br />
+<strong>Methodology:</strong> Systems architecture evaluation, silicon limitation analysis (Flash/RAM mapping), and protocol compatibility testing for ROS 2 integration. </p>
+<hr />
+<h2 id="1-introduction-objectives">1. Introduction &amp; Objectives<a class="headerlink" href="#1-introduction-objectives" title="Permanent link">&para;</a></h2>
+<p>The "brain" of the UAV consists of the Flight Controller (FC) hardware and its embedded firmware. Standard 6-inch drones typically utilize racing stacks (Betaflight) designed for manual control. However, this project requires a research-grade avionics package capable of executing autonomous MAVLink commands generated by an onboard companion computer (Raspberry Pi 4) / ground station via ROS 2.</p>
+<p>The objective of this trade-off study is to navigate the complex intersection of <strong>Firmware Capabilities</strong>, <strong>Microcontroller (MCU) Silicon Limitations</strong>, and <strong>Physical Packaging</strong> to select the optimal Flight Controller and peripheral stack.</p>
+<hr />
+<h2 id="2-firmware-architecture-evaluation">2. Firmware Architecture Evaluation<a class="headerlink" href="#2-firmware-architecture-evaluation" title="Permanent link">&para;</a></h2>
+<p>The choice of firmware dictates the entire software pipeline, from the ground station to the companion computer. Four primary open-source flight stacks were evaluated.</p>
+<h3 id="21-capability-comparison">2.1 Capability Comparison<a class="headerlink" href="#21-capability-comparison" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Betaflight</th>
+<th style="text-align: left;">INAV</th>
+<th style="text-align: left;">PX4 Autopilot</th>
+<th style="text-align: left;">ArduPilot</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Primary Use Case</strong></td>
+<td style="text-align: left;">Manual FPV / Racing</td>
+<td style="text-align: left;">GPS FPV / Cruising</td>
+<td style="text-align: left;">Research / Robotics</td>
+<td style="text-align: left;">Robotics / Hobbyist</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Control Loop Latency</strong></td>
+<td style="text-align: left;">Ultra-low (&lt;1ms)</td>
+<td style="text-align: left;">Low</td>
+<td style="text-align: left;">Moderate</td>
+<td style="text-align: left;">Moderate</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>MAVLink Support</strong></td>
+<td style="text-align: left;">Extremely Limited</td>
+<td style="text-align: left;">Basic</td>
+<td style="text-align: left;"><strong>Native &amp; Robust</strong></td>
+<td style="text-align: left;"><strong>Native &amp; Robust</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Offboard AI Control</strong></td>
+<td style="text-align: left;">RC Overrides Only</td>
+<td style="text-align: left;">Waypoints only</td>
+<td style="text-align: left;"><strong>Full API</strong></td>
+<td style="text-align: left;"><strong>Full API</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Companion PC Routing</strong></td>
+<td style="text-align: left;">None</td>
+<td style="text-align: left;">Poor</td>
+<td style="text-align: left;"><strong>Excellent</strong></td>
+<td style="text-align: left;"><strong>Excellent</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-decision-matrix">2.2 Decision Matrix<a class="headerlink" href="#22-decision-matrix" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Betaflight &amp; INAV:</strong> Rejected. While they offer excellent manual flight performance, they lack the bidirectional MAVLink APIs required for a Raspberry Pi running ROS 2 to inject real-time velocity vectors or position targets.</li>
+<li><strong>PX4 vs. ArduPilot:</strong> Both are heavyweights in the autonomous robotics sector. <strong>ArduPilot (Copter)</strong> was ultimately selected for this build due to its broader support for compact FPV-style hardware boards and its highly mature hardware-in-the-loop (SITL) integration with Gazebo.</li>
+</ul>
+<hr />
+<h2 id="3-flight-controller-hardware-silicon-constraints">3. Flight Controller Hardware (Silicon Constraints)<a class="headerlink" href="#3-flight-controller-hardware-silicon-constraints" title="Permanent link">&para;</a></h2>
+<p>Running advanced firmware like ArduPilot on 30x30mm FPV-style boards introduces severe silicon constraints. ArduPilot relies heavily on Extended Kalman Filters (EKF3) and redundant sensor logging, demanding significant Flash memory and RAM.</p>
+<h3 id="31-the-1mb-flash-limitation-f405-vs-h743">3.1 The 1MB Flash Limitation (F405 vs. H743)<a class="headerlink" href="#31-the-1mb-flash-limitation-f405-vs-h743" title="Permanent link">&para;</a></h3>
+<p>Many popular budget FPV stacks (such as the SpeedyBee F405 V3/V4) utilize the STM32F405 microcontroller. 
+*   <strong>The F405 Problem:</strong> The STM32F405 contains only <strong>1MB of Flash memory</strong>. Modern ArduPilot builds exceed 1.2MB. To run ArduPilot on an F405, the firmware must be compiled as a "stripped" target—removing LUA scripting, advanced EKF features, and specialized peripheral drivers. 
+*   <strong>The H7 Solution:</strong> STM32H7-class processors (e.g., H743) feature <strong>2MB of Flash</strong> and run at 480MHz, providing compute headroom for sensor fusion and dual-gyro filtering without sacrificing features.</p>
+<p><pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+xychart-beta
+    title "Microcontroller Compute &amp; Memory Headroom for ArduPilot"
+    x-axis ["STM32F405 (1MB / 168MHz)", "STM32F722 (512KB / 216MHz)", "STM32H743 (2MB / 480MHz)"]
+    y-axis "Compute/Memory Suitability (%)" 0 --&gt; 100
+    bar [45, 10, 95]</code></pre>
+<em>Note: The F722 chip is practically obsolete for ArduPilot due to its 512KB flash limit, despite its faster clock speed.</em></p>
+<h3 id="32-form-factor-selection-pixhawk-vs-fpv-stacks">3.2 Form Factor Selection (Pixhawk vs. FPV Stacks)<a class="headerlink" href="#32-form-factor-selection-pixhawk-vs-fpv-stacks" title="Permanent link">&para;</a></h3>
+<p>Traditional autonomous drones use boards like the <strong>Holybro Pixhawk 2.4.8</strong>. While excellent, Pixhawk boards are bulky, heavy, and require external Power Distribution Boards (PDBs) and standalone ESCs. </p>
+<p>To maintain the 1.5kg AUW endurance limit on a 6-inch frame, a <strong>30x30mm 4-in-1 Stack</strong> (combining the FC and the ESC into a compact tower) is ideal.</p>
+<h3 id="33-final-fc-selection">3.3 Final FC Selection<a class="headerlink" href="#33-final-fc-selection" title="Permanent link">&para;</a></h3>
+<p>The <strong>SkyStars H7 Dual Gyro FC + KM60 60A BLHeli_32 ESC</strong> was selected over alternatives like the SpeedyBee and Matek equivalents.
+*   <strong>Processor:</strong> STM32H7 (Supports full, unstripped ArduPilot firmware).
+*   <strong>Sensors:</strong> Dual Gyros (allows hardware-level vibration filtering, critical for a 3D-printed frame) and an onboard Barometer.
+*   <strong>I/O:</strong> 8 hardware UARTs, providing ample ports for GPS, ELRS, telemetry to the Pi 4, and future sensors (LiDAR/Optical Flow).
+*   <strong>Power:</strong> The integrated 60A ESC vastly exceeds the ~20A total hover requirement, guaranteeing thermal safety.</p>
+<pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+flowchart TD
+    subgraph Compute_Target [Raspberry Pi 4]
+    ROS[ROS 2 Node: Object Tracking] --&gt; |Velocity Cmds| MAV[MAVROS / MAVLink]
+    end
+
+    subgraph Flight_Stack [SkyStars H7 FC]
+    MAV --&gt; |UART Rx/Tx| AP[ArduPilot Firmware]
+    AP --&gt; EKF[EKF3 Sensor Fusion]
+    EKF --&gt; PID[Position/Attitude Control]
+    end
+
+    subgraph Actuation [KM60 4-in-1 ESC]
+    PID --&gt; |DShot600 Protocol| ESC[60A BLHeli_32]
+    ESC --&gt; M[2807 Motors]
+    end
+
+    style AP fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    style ESC fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000</code></pre>
+<hr />
+<h2 id="4-peripherals-and-communications">4. Peripherals and Communications<a class="headerlink" href="#4-peripherals-and-communications" title="Permanent link">&para;</a></h2>
+<p>To support the ArduPilot ecosystem, the peripheral layout must prioritize digital serial communication over legacy analog/PWM protocols.</p>
+<h3 id="41-radio-receiver-crsf-vs-pwm">4.1 Radio Receiver (CRSF vs. PWM)<a class="headerlink" href="#41-radio-receiver-crsf-vs-pwm" title="Permanent link">&para;</a></h3>
+<p>The control link required a rigorous evaluation between receiver geometries. 
+*   <strong>Radiomaster ER6 and similar (Rejected):</strong> The ER6 is a PWM-based receiver designed for fixed-wing aircraft. It outputs physical PWM signals to drive individual servos, making it incredibly bulky and virtually useless for a modern quadcopter flight controller that expects a multiplexed serial input.
+*   <strong>Radiomaster RP4TD-M (Selected):</strong> This is a micro-sized <strong>True Diversity</strong> serial receiver. It communicates with the FC using the high-speed CRSF (Crossfire) protocol over a single UART. The dual-antenna diversity ensures the 2.4GHz control link remains unbroken even if the drone's carbon/plastic frame blocks one antenna during maneuvering.</p>
+<h3 id="42-gps-magnetometer">4.2 GPS &amp; Magnetometer<a class="headerlink" href="#42-gps-magnetometer" title="Permanent link">&para;</a></h3>
+<p>Autonomous multirotors rely heavily on accurate heading data. While gyroscopes provide relative yaw, they drift over time. 
+*   <strong>HGLRC M100 Pro GPS (Selected):</strong> Features the modern U-Blox M10 chipset for rapid 3D satellite locking. Crucially, this unit <strong>includes an integrated magnetometer (compass).</strong> Without an external compass mounted away from the electromagnetic noise of the high-current ESC, ArduPilot cannot reliably execute autonomous positional holding ("Loiter") or waypoint tracking, leading to dangerous "toilet-bowling" behavior.</p>
+<hr />
+<h2 id="5-architectural-conclusion">5. Architectural Conclusion<a class="headerlink" href="#5-architectural-conclusion" title="Permanent link">&para;</a></h2>
+<p>By mapping the software requirements (ROS 2 MAVLink routing) to the physical hardware limits, the optimal avionics package was finalized. The stack avoids the common pitfalls of stripping firmware to fit budget FPV chips or utilizing bulky legacy autopilots. </p>
+<p><strong>Final Avionics Architecture:</strong>
+1.  <strong>Firmware:</strong> ArduPilot (Copter)
+2.  <strong>Flight Controller:</strong> SkyStars H7 Dual Gyro (STM32H7, 2MB Flash)
+3.  <strong>Actuation:</strong> KM60 60A 4-in-1 BLHeli_32 ESC
+4.  <strong>Control Link:</strong> ExpressLRS 2.4GHz via Radiomaster RP4TD-M (CRSF Serial)
+5.  <strong>Navigation:</strong> HGLRC M100 Pro (M10 GPS + Compass via UART/I2C)</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

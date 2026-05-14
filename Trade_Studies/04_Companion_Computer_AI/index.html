@@ -1,0 +1,1649 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Systems engineering, trade studies, and simulation architecture for a 6-inch autonomous quadcopter.">
+      
+      
+        <meta name="author" content="Your Name">
+      
+      
+      
+        <link rel="prev" href="../03_Communication_Architecture/">
+      
+      
+        <link rel="next" href="../../Architecture_Diagrams/electrical_wiring_schematic/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Companion Compute & AI - Autonomous Long-Endurance UAV</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#trade-off-study-04-companion-computer-vision-sensors-and-ai-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Autonomous Long-Endurance UAV" class="md-header__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Autonomous Long-Endurance UAV
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Companion Compute & AI
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-orange"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../01_Propulsion_and_Endurance/" class="md-tabs__link">
+          
+  
+  
+  Systems Engineering & Trade Studies
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Architecture_Diagrams/electrical_wiring_schematic/" class="md-tabs__link">
+          
+  
+  
+  Architecture Diagrams
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Power_Consumption_and_Budget/" class="md-tabs__link">
+          
+  
+  
+  Integration Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Simulation_Overview/" class="md-tabs__link">
+          
+  
+  
+  Simulation (Digital Twin)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../Final_Report/" class="md-tabs__link">
+          
+  
+  
+  Project Report
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Autonomous Long-Endurance UAV" class="md-nav__button md-logo" aria-label="Autonomous Long-Endurance UAV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Autonomous Long-Endurance UAV
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Systems Engineering & Trade Studies
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Systems Engineering & Trade Studies
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_Propulsion_and_Endurance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Propulsion & Aerodynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_Flight_Controller_Stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flight Controller Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_Communication_Architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Communication & RF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion Compute & AI
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Companion Compute & AI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-companion-computer-sbc-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Companion Computer (SBC) Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Companion Computer (SBC) Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hardware-candidates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hardware Candidates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-why-not-the-pi-zero-2w" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Why Not the Pi Zero 2W?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-pi-5-software-compatibility-paradox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The "Pi 5" Software Compatibility Paradox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-vision-sensor-selection-camera-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vision Sensor Selection (Camera Module)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Vision Sensor Selection (Camera Module)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-pi-camera-module-2-vs-module-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Pi Camera Module 2 vs. Module 3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-dual-mode-perception-and-ai-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Dual-Mode Perception and AI Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Dual-Mode Perception and AI Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-mode-1-distributed-ai-ground-station-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Mode 1: Distributed AI (Ground Station Processing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-mode-2-edge-ai-on-board-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Mode 2: Edge AI (On-board Processing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-data-flow-pipeline-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Data Flow Pipeline (State Machine)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagrams
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture Diagrams
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/electrical_wiring_schematic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electrical Schematic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/software_data_flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Software Data Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/openhd_network_topology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Topology
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Architecture_Diagrams/system_architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Integration Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Integration Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Power_Consumption_and_Budget/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Power Consumption & Budget
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Assembly_and_Wiring_Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Assembly & Wiring Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../structural_analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Structural Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulation (Digital Twin)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Simulation (Digital Twin)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Simulation_Overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workspace Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Report
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project Report
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Final_Report/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Final Project Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction &amp; Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-companion-computer-sbc-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Companion Computer (SBC) Evaluation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Companion Computer (SBC) Evaluation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-hardware-candidates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Hardware Candidates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-why-not-the-pi-zero-2w" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Why Not the Pi Zero 2W?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-pi-5-software-compatibility-paradox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The "Pi 5" Software Compatibility Paradox
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-vision-sensor-selection-camera-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Vision Sensor Selection (Camera Module)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Vision Sensor Selection (Camera Module)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-pi-camera-module-2-vs-module-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Pi Camera Module 2 vs. Module 3
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-dual-mode-perception-and-ai-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Dual-Mode Perception and AI Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Dual-Mode Perception and AI Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-mode-1-distributed-ai-ground-station-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Mode 1: Distributed AI (Ground Station Processing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-mode-2-edge-ai-on-board-processing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Mode 2: Edge AI (On-board Processing)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-data-flow-pipeline-state-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Data Flow Pipeline (State Machine)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Conclusion
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="trade-off-study-04-companion-computer-vision-sensors-and-ai-pipeline">Trade-off Study 04: Companion Computer, Vision Sensors, and AI Pipeline<a class="headerlink" href="#trade-off-study-04-companion-computer-vision-sensors-and-ai-pipeline" title="Permanent link">&para;</a></h1>
+<p><strong>Status:</strong> Finalized<br />
+<strong>Author:</strong> Sarthak Rathi<br />
+<strong>Methodology:</strong> SWaP (Size, Weight, and Power) analysis, software ecosystem compatibility mapping, and computer vision latency modeling.</p>
+<hr />
+<h2 id="1-introduction-objectives">1. Introduction &amp; Objectives<a class="headerlink" href="#1-introduction-objectives" title="Permanent link">&para;</a></h2>
+<p>In an autonomous object-tracking drone, the Companion Computer (CC) acts as the high-level brain. It is responsible for bridging the flight controller (ArduPilot) to the external world by handling hardware-accelerated video encoding, routing MAVLink telemetry, and executing or forwarding Computer Vision (CV) workloads via ROS 2.</p>
+<p>Integrating a CC on a 6-inch multirotor introduces strict <strong>SWaP (Size, Weight, and Power)</strong> constraints. The objective of this trade study is to select a Single Board Computer (SBC) and camera sensor that provide enough compute headroom for the OpenHD digital video pipeline and AI integration, without exceeding the payload capacity or thermal limits of the airframe.</p>
+<hr />
+<h2 id="2-companion-computer-sbc-evaluation">2. Companion Computer (SBC) Evaluation<a class="headerlink" href="#2-companion-computer-sbc-evaluation" title="Permanent link">&para;</a></h2>
+<p>The CC must continuously encode 1080p or 720p video to H.264 while managing network protocols. I evaluated several SBCs against the system's 1.5 kg AUW and ~15W avionics power limit.</p>
+<h3 id="21-hardware-candidates">2.1 Hardware Candidates<a class="headerlink" href="#21-hardware-candidates" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">SBC Candidate</th>
+<th style="text-align: left;">RAM</th>
+<th style="text-align: left;">Peak Power</th>
+<th style="text-align: left;">Weight (w/o heatsink)</th>
+<th style="text-align: left;">AI Capability</th>
+<th style="text-align: left;">Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Raspberry Pi Zero 2W</strong></td>
+<td style="text-align: left;">512 MB</td>
+<td style="text-align: left;">~2.5 W</td>
+<td style="text-align: left;">15 g</td>
+<td style="text-align: left;">Very Poor</td>
+<td style="text-align: left;">Rejected (Too weak)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Orange Pi Zero 2</strong></td>
+<td style="text-align: left;">1 GB</td>
+<td style="text-align: left;">~4.0 W</td>
+<td style="text-align: left;">30 g</td>
+<td style="text-align: left;">Poor</td>
+<td style="text-align: left;">Rejected (Driver issues)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Raspberry Pi 4 Model B</strong></td>
+<td style="text-align: left;"><strong>4 GB</strong></td>
+<td style="text-align: left;"><strong>~7.0 W</strong></td>
+<td style="text-align: left;"><strong>46 g</strong></td>
+<td style="text-align: left;"><strong>Moderate</strong></td>
+<td style="text-align: left;"><strong>Selected</strong></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Raspberry Pi 5</strong></td>
+<td style="text-align: left;">4-8 GB</td>
+<td style="text-align: left;">~12.0 W</td>
+<td style="text-align: left;">46 g</td>
+<td style="text-align: left;">High</td>
+<td style="text-align: left;">Rejected (Software incompat.)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Nvidia Jetson Nano</strong></td>
+<td style="text-align: left;">4 GB</td>
+<td style="text-align: left;">~15.0 W</td>
+<td style="text-align: left;">&gt;140 g</td>
+<td style="text-align: left;">Excellent</td>
+<td style="text-align: left;">Rejected (Too heavy/power hungry)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="22-why-not-the-pi-zero-2w">2.2 Why Not the Pi Zero 2W?<a class="headerlink" href="#22-why-not-the-pi-zero-2w" title="Permanent link">&para;</a></h3>
+<p>My initial BoM included the Pi Zero 2W to save weight. However, while it <em>can</em> run OpenHD, its 512MB of RAM creates a severe bottleneck. Once the OS and OpenHD video encoder allocate memory, there is virtually zero RAM left for running ROS 2 nodes or onboard tracking scripts, leading to system crashes.</p>
+<h3 id="23-the-pi-5-software-compatibility-paradox">2.3 The "Pi 5" Software Compatibility Paradox<a class="headerlink" href="#23-the-pi-5-software-compatibility-paradox" title="Permanent link">&para;</a></h3>
+<p>Logically, the newest and most powerful Raspberry Pi 5 should be the best choice. However, it was explicitly rejected due to <strong>software ecosystem immaturity</strong>. 
+OpenHD historically relies on the proprietary Broadcom <code>MMAL</code> (Multi-Media Abstraction Layer) pipeline and the hardware H.264 encoder built into the VideoCore IV/VI GPUs of the Pi 3 and Pi 4. The Raspberry Pi 5 completely removed this legacy hardware encoder and shifted to a new software/hardware architecture. Consequently, OpenHD does not officially or stably support the Pi 5 yet.</p>
+<p><pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+xychart-beta
+    title "SBC Power Draw vs. Acceptable Avionics Limit"
+    x-axis ["Pi Zero 2W", "Orange Pi", "Pi 4 (4GB)", "Pi 5", "Jetson Nano"]
+    y-axis "Peak Power Draw (Watts)" 0 --&gt; 20
+    bar [2.5, 4, 7, 12, 15]
+    line [10, 10, 10, 10, 10]</code></pre>
+<em>(The line at 10W represents the optimal target maximum power draw for a 6-inch quad's CC to preserve flight time).</em></p>
+<p><strong>Conclusion:</strong> The <strong>Raspberry Pi 4 (4GB)</strong> is the "sweet spot." It offers robust OpenHD support via hardware encoding, enough RAM to host ROS 2 middleware, and manageable power/weight profiles.</p>
+<hr />
+<h2 id="3-vision-sensor-selection-camera-module">3. Vision Sensor Selection (Camera Module)<a class="headerlink" href="#3-vision-sensor-selection-camera-module" title="Permanent link">&para;</a></h2>
+<p>For computer vision and object tracking, the camera is not just a lens; it is a measurement instrument. The camera must provide a deterministic, low-latency feed.</p>
+<h3 id="31-pi-camera-module-2-vs-module-3">3.1 Pi Camera Module 2 vs. Module 3<a class="headerlink" href="#31-pi-camera-module-2-vs-module-3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Camera Module 3:</strong> Features a 12MP Sony IMX708 sensor, HDR, and <strong>Autofocus</strong>.</li>
+<li><strong>Camera Module 2:</strong> Features an 8MP Sony IMX219 sensor and <strong>Fixed Focus</strong>.</li>
+</ul>
+<p>While the Module 3 has superior image quality, it was <strong>rejected</strong> for two critical engineering reasons:
+1.  <strong>Autofocus Hunting:</strong> In a high-vibration drone environment, autofocus logic constantly "hunts" to maintain sharpness. This introduces non-deterministic latency and blurring, which destroys the bounding-box consistency of object-tracking algorithms (like YOLO). Fixed focus ensures optical consistency.
+2.  <strong>Software Stack (<code>libcamera</code>):</strong> Camera Module 3 requires the modern <code>libcamera</code> stack. As discussed in the SBC evaluation, OpenHD relies on the legacy MMAL video pipeline. <code>libcamera</code> integration in OpenHD is currently highly experimental and prone to crashing. </p>
+<pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+flowchart LR
+    subgraph Camera Selection
+    Cam3[Camera Module 3] --&gt;|Requires| LC[libcamera Stack]
+    LC --&gt;|Breaks| OHD[OpenHD Legacy MMAL]
+
+    Cam2[Camera Module 2] --&gt;|Native| MMAL[MMAL / Raspivid]
+    MMAL --&gt;|Stable| OHD
+    end
+
+    style Cam3 fill:#cc3333,stroke:#ff6666,stroke-width:2px,color:#ffffff
+    style Cam2 fill:#33cc33,stroke:#00aa00,stroke-width:2px,color:#000000</code></pre>
+<p><strong>Conclusion:</strong> The <strong>Raspberry Pi Camera Module 2</strong> was selected. It provides plug-and-play compatibility with OpenHD and ensures a consistent, fixed focal plane for the tracking AI.</p>
+<hr />
+<h2 id="4-dual-mode-perception-and-ai-architecture">4. Dual-Mode Perception and AI Architecture<a class="headerlink" href="#4-dual-mode-perception-and-ai-architecture" title="Permanent link">&para;</a></h2>
+<p>With the CC and Camera finalized, the architectural flow of the autonomous tracking system was mapped out. </p>
+<p>Given the computational limits of the Raspberry Pi 4 (which must reserve hardware resources for H.264 video encoding and ROS 2 middleware), a rigid single-architecture approach is a potential point of failure. To maximize flexibility, the software architecture is designed to operate in <strong>two distinct modes</strong>, selectable via ROS 2 launch parameters prior to flight.</p>
+<h3 id="41-mode-1-distributed-ai-ground-station-processing">4.1 Mode 1: Distributed AI (Ground Station Processing)<a class="headerlink" href="#41-mode-1-distributed-ai-ground-station-processing" title="Permanent link">&para;</a></h3>
+<p>In this mode, the drone acts as a remote sensor and actuator, offloading heavy computer vision inference to the Ground Station.
+*   <strong>Pipeline:</strong> The Pi 4 encodes the camera feed and broadcasts it via OpenHD. The Ground Station ingests the stream, runs heavy deep-learning models (like YOLOv8 or YOLOv11), calculates the centroid error, and transmits MAVLink velocity vectors back over the 5GHz link.
+*   <strong>Advantages:</strong> Allows for state-of-the-art, high-resolution neural network inference without thermal or CPU throttling on the drone.
+*   <strong>Disadvantages:</strong> Introduces round-trip network latency (~120ms to 180ms). If the 5GHz Wi-Fi link degrades, autonomous tracking is immediately lost.</p>
+<h3 id="42-mode-2-edge-ai-on-board-processing">4.2 Mode 2: Edge AI (On-board Processing)<a class="headerlink" href="#42-mode-2-edge-ai-on-board-processing" title="Permanent link">&para;</a></h3>
+<p>In this mode, the drone achieves true autonomy. The Pi 4 intercepts the raw CSI camera frames, splits the pipeline, and processes the AI locally while simultaneously streaming video for human monitoring.
+*   <strong>Pipeline:</strong> The Pi 4 runs optimized, lightweight tracking algorithms (e.g., OpenCV CSRT/KCF trackers, color-blob detection, or quantized TFLite models) directly in its RAM. MAVLink velocity commands are sent locally via the physical UART connection to the flight controller. 
+*   <strong>Advantages:</strong> <strong>Zero network latency</strong> in the control loop. The drone will continue to track and follow the target even if the OpenHD video link back to the ground station is completely severed or jammed.
+*   <strong>Disadvantages:</strong> Limited to lower-resolution frames (e.g., 320x240) and simpler algorithms to prevent CPU max-out and thermal throttling on the Pi 4.</p>
+<h3 id="43-data-flow-pipeline-state-machine">4.3 Data Flow Pipeline (State Machine)<a class="headerlink" href="#43-data-flow-pipeline-state-machine" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
+flowchart TD
+    CAM[Pi Camera V2 Raw Frames] --&gt; SPLIT{ROS 2 Mode Selector}
+
+    %% MODE 2: On-board AI
+    SPLIT --&gt;|Mode 2: Edge AI| ONBOARD[Pi 4: OpenCV / TFLite Node]
+    ONBOARD --&gt;|Calculate Centroid| VEL2[Generate Velocity Cmd]
+    VEL2 --&gt;|Local UART| FC[SkyStars H7 Flight Controller]
+
+    %% MODE 1: Ground Station AI
+    SPLIT --&gt;|Mode 1: Distributed| ENC[Pi 4: H.264 Encoder]
+    ENC --&gt;|5GHz Wi-Fi| GS[Ground Station RTX 4070]
+    GS --&gt;|YOLOv8 Inference| VEL1[Generate Velocity Cmd]
+    VEL1 --&gt;|5GHz Wi-Fi| FC
+
+    %% Monitoring
+    ONBOARD -.-&gt;|Background Task| ENC
+
+    style ONBOARD fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
+    style GS fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000</code></pre>
+<hr />
+<h2 id="5-conclusion">5. Conclusion<a class="headerlink" href="#5-conclusion" title="Permanent link">&para;</a></h2>
+<p>The selection of the <strong>Raspberry Pi 4 (4GB)</strong> and the <strong>Pi Camera Module 2</strong> represents the safest, most reliable path for achieving a digital video link on a research drone. By respecting the software limitations of the OpenHD ecosystem and adopting a <strong>Dual-Mode AI architecture</strong>, the platform is incredibly versatile. It can leverage Ground Station GPUs for complex neural network research (Mode 1), while retaining the capability to run hard real-time, RF-independent tracking algorithms directly on the edge (Mode 2). This architecture minimizes thermal output while maximizing mission reliability.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
