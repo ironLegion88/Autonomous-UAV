@@ -1,0 +1,64 @@
+site_name: Autonomous Long-Endurance UAV
+site_description: Systems engineering, trade studies, and simulation architecture for a 6-inch autonomous quadcopter.
+site_author: Your Name
+
+theme:
+  name: material
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: deep orange
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Systems Engineering & Trade Studies:
+      - Propulsion & Aerodynamics: Trade_Studies/01_Propulsion_and_Endurance.md
+      - Flight Controller Stack: Trade_Studies/02_Flight_Controller_Stack.md
+      - Communication & RF: Trade_Studies/03_Communication_Architecture.md
+      - Companion Compute & AI: Trade_Studies/04_Companion_Computer_AI.md
+  - Architecture Diagrams:
+      - Electrical Schematic: Architecture_Diagrams/electrical_wiring_schematic.md
+      - Software Data Flow: Architecture_Diagrams/software_data_flow.md
+      - Network Topology: Architecture_Diagrams/openhd_network_topology.md
+      - System Architecture: Architecture_Diagrams/system_architecture.md
+  - Integration Guides:
+      - Power Consumption & Budget: Power_Consumption_and_Budget.md
+      - Assembly & Wiring Guide: Assembly_and_Wiring_Guide.md
+      - Structural Analysis: structural_analysis.md
+  - Simulation (Digital Twin):
+      - Workspace Overview: ../simulation_ws/README_SIM.md
