@@ -19,7 +19,7 @@ To prevent this, the power architecture physically decouples the avionics load f
 %%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     BAT[6S / 4S Li-ion Battery] --> ESC[SkyStars 60A 4-in-1 ESC]
-    BAT --> BUCK[XL4015 Buck Converter 5V/5A]
+    BAT --> BUCK[XL4016 Buck Converter 5V/5A]
     
     ESC --> M1((Motor 1: 2807))
     ESC --> M2((Motor 2: 2807))
@@ -59,7 +59,7 @@ The continuous electrical load of the onboard compute and communications hardwar
 | **Flight Controller + GPS + ELRS** | 0.3 A | 0.5 A | 2.5 W |
 | **Total Avionics Load @ 5V** | **~2.5 A** | **~5.55 A**| **~27.75 W** |
 
-*Analysis:* The XL4015 Buck Converter is rated for **5A continuous (75W)**. During normal operation (OpenHD encoding + tracking), the system will draw ~2.5A to 3.0A, remaining safely within the regulator's thermal and electrical limits. 
+*Analysis:* The XL4016 Buck Converter is rated for **8A continuous**. During normal operation (OpenHD encoding + tracking), the system will draw ~2.5A to 3.0A, remaining safely within the regulator's thermal and electrical limits. 
 
 ```mermaid
 %%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff'}, 'pie': {'useMaxWidth': true}}}%%
@@ -116,7 +116,7 @@ xychart-beta
     y-axis "Estimated Flight Time (Minutes)" 5 --> 30
     bar [15, 18, 22, 24]
 ```
-**Conclusion:** The **Gemfan LR 6026-2** bi-blade propeller was definitively chosen for the build. Moving from a standard 5-inch freestyle prop (5129) to a 6-inch low-pitch bi-blade yields a theoretical efficiency gain of nearly 60% in sustained hover time.
+**Conclusion:** The **Gemfan LR 6026-2** bi-blade propeller was chosen for the build. Moving from a standard 5-inch freestyle prop (5129) to a 6-inch low-pitch bi-blade yields a theoretical efficiency gain of nearly 60% in sustained hover time.
 
 ## 6. C-Rating Safety Margin
 Lithium-ion batteries possess immense energy density but low discharge rates compared to LiPo batteries. It is vital to ensure the drone's peak current does not exceed the battery's maximum Continuous Discharge Rate (CDR).

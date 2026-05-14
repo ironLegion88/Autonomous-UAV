@@ -94,8 +94,8 @@ To support the ArduPilot ecosystem, the peripheral layout must prioritize digita
 
 ### 4.1 Radio Receiver (CRSF vs. PWM)
 The control link required a rigorous evaluation between receiver geometries. 
-*   **Radiomaster ER6 (Rejected):** The ER6 is a PWM-based receiver designed for fixed-wing aircraft. It outputs physical PWM signals to drive individual servos, making it incredibly bulky and virtually useless for a modern quadcopter flight controller that expects a multiplexed serial input.
-*   **Radiomaster RP4TD-M (Selected):** This is a micro-sized **True Diversity** serial receiver. It communicates with the FC using the high-speed CRSF (Crossfire) protocol over a single UART. The dual-antenna diversity ensures the 2.4GHz control link remains unbroken even if the drone's carbon/plastic frame blocks one antenna during autonomous maneuvering.
+*   **Radiomaster ER6 and similar (Rejected):** The ER6 is a PWM-based receiver designed for fixed-wing aircraft. It outputs physical PWM signals to drive individual servos, making it incredibly bulky and virtually useless for a modern quadcopter flight controller that expects a multiplexed serial input.
+*   **Radiomaster RP4TD-M (Selected):** This is a micro-sized **True Diversity** serial receiver. It communicates with the FC using the high-speed CRSF (Crossfire) protocol over a single UART. The dual-antenna diversity ensures the 2.4GHz control link remains unbroken even if the drone's carbon/plastic frame blocks one antenna during maneuvering.
 
 ### 4.2 GPS & Magnetometer
 Autonomous multirotors rely heavily on accurate heading data. While gyroscopes provide relative yaw, they drift over time. 

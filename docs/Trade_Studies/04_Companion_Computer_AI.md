@@ -1,4 +1,4 @@
-# Trade Study 04: Companion Computer, Vision Sensors, and AI Pipeline
+# Trade-off Study 04: Companion Computer, Vision Sensors, and AI Pipeline
 
 **Status:** Finalized  
 **Author:** Sarthak Rathi  
@@ -45,7 +45,7 @@ xychart-beta
 ```
 *(The line at 10W represents the optimal target maximum power draw for a 6-inch quad's CC to preserve flight time).*
 
-**Conclusion:** The **Raspberry Pi 4 (4GB)** is the indisputable "sweet spot." It offers robust OpenHD support via hardware encoding, enough RAM to host ROS 2 middleware, and manageable power/weight profiles.
+**Conclusion:** The **Raspberry Pi 4 (4GB)** is the "sweet spot." It offers robust OpenHD support via hardware encoding, enough RAM to host ROS 2 middleware, and manageable power/weight profiles.
 
 ---
 
@@ -76,7 +76,7 @@ flowchart LR
     style Cam2 fill:#33cc33,stroke:#00aa00,stroke-width:2px,color:#000000
 ```
 
-**Conclusion:** The **Raspberry Pi Camera Module 2** was definitively selected. It provides plug-and-play compatibility with OpenHD and ensures a consistent, fixed focal plane for the tracking AI.
+**Conclusion:** The **Raspberry Pi Camera Module 2** was selected. It provides plug-and-play compatibility with OpenHD and ensures a consistent, fixed focal plane for the tracking AI.
 
 ---
 
@@ -88,7 +88,7 @@ Given the computational limits of the Raspberry Pi 4 (which must reserve hardwar
 
 ### 4.1 Mode 1: Distributed AI (Ground Station Processing)
 In this mode, the drone acts as a remote sensor and actuator, offloading heavy computer vision inference to the Ground Station.
-*   **Pipeline:** The Pi 4 encodes the camera feed and broadcasts it via OpenHD. The Ground Station (equipped with an RTX 4070 GPU) ingests the stream, runs heavy deep-learning models (like YOLOv8 or YOLOv11), calculates the centroid error, and transmits MAVLink velocity vectors back over the 5GHz link.
+*   **Pipeline:** The Pi 4 encodes the camera feed and broadcasts it via OpenHD. The Ground Station ingests the stream, runs heavy deep-learning models (like YOLOv8 or YOLOv11), calculates the centroid error, and transmits MAVLink velocity vectors back over the 5GHz link.
 *   **Advantages:** Allows for state-of-the-art, high-resolution neural network inference without thermal or CPU throttling on the drone.
 *   **Disadvantages:** Introduces round-trip network latency (~120ms to 180ms). If the 5GHz Wi-Fi link degrades, autonomous tracking is immediately lost.
 
