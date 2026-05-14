@@ -32,6 +32,7 @@ Freestyle drones predominantly use tri-blade propellers for cornering grip and "
 | **Gemfan LR 6026-2**| 6-inch Bi-Blade | **Maximum** | **30 – 36 min** | **Selected** |
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '16px', 'fontFamily': 'Arial'}, 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff', 'tertiaryColor': '#2d2d2d'}}%%
 xychart-beta
     title "Estimated Flight Time by Propeller Geometry (1.5kg AUW Model)"
     x-axis ["5129 Tri-blade", "6030 Tri-blade", "6030 Bi-blade", "6026-2 Bi-blade"]
@@ -52,6 +53,7 @@ My initial BoM included `2306 1750KV` motors. Thrust table analysis revealed a c
 *Note: I modeled a software workaround using ArduPilot's `MOT_THST_MAX = 0.65` parameter to artificially limit a high KV motor to an effective ~1100KV. While mathematically viable, it does not fix the physical lack of torque.*
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     subgraph Freestyle Motor
     A[2306 1750KV] -->|Low Stator Volume| B[Low Torque at Low RPM]
@@ -59,14 +61,16 @@ flowchart TD
     C -->|Heat Loss| D((Poor Endurance))
     end
     
+    D -.-> E
+    
     subgraph Endurance Motor
     E[2807 1500KV] -->|High Stator Volume| F[High Torque at Low RPM]
     F -->|Swinging 6-inch Prop| G[Low Current Draw]
     G -->|Peak Efficiency Band| H(((High Endurance)))
     end
     
-    style D fill:#ffe6e6,stroke:#ff0000
-    style H fill:#e6ffe6,stroke:#00aa00
+    style D fill:#ff4444,stroke:#ff0000,stroke-width:3px,color:#ffffff
+    style H fill:#44ff44,stroke:#00aa00,stroke-width:3px,color:#000000
 ```
 
 ### 3.2 Scaling Up: 2506 vs 2807
@@ -89,6 +93,7 @@ The energy system dictates the absolute ceiling of endurance. The choice was bet
 Because the theoretical hover current of this drone is extremely low (14A – 18A total), a high discharge rate is irrelevant. The design mandates **Li-ion** chemistry for its superior energy density.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart LR
     B[Battery Selection] --> LiPo[LiPo Chemistry]
     B --> LiIon[Li-ion 21700 Chemistry]
@@ -99,8 +104,8 @@ flowchart LR
     LiIon --> |Max 45A-70A Discharge| LowP[Sufficient for Hover & Cruise]
     LiIon --> |High Wh/kg| HighE[High Endurance > 25m]
     
-    style LiPo fill:#ffe6e6,stroke:#ff6666
-    style LiIon fill:#e6ffe6,stroke:#00aa00
+    style LiPo fill:#cc3333,stroke:#ff6666,stroke-width:2px,color:#ffffff
+    style LiIon fill:#33cc33,stroke:#00aa00,stroke-width:2px,color:#000006
 ```
 
 ### 4.2 Configuration: 4S1P vs. 4S2P
@@ -127,6 +132,7 @@ If a frame is printed in a flexible material like standard **PETG** or **PLA**, 
 *   **Result:** The motors constantly accelerate and decelerate hundreds of times a second, drawing massive current spikes and dissipating energy as heat. Studies estimate a flexible frame can cause a **10% to 20% loss in total flight efficiency**.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     Flex[Flexible Frame e.g., PETG/PLA] -->|Motor Thrust Causes Flex| Vib[High-Frequency Micro-Oscillations]
     Vib --> Gyro[Gyroscope Detects Mechanical Noise]
@@ -139,8 +145,8 @@ flowchart TD
     Damp --> Smooth[Smooth Gyro Traces]
     Smooth --> Eff((Efficient Motor Output))
     
-    style Loss fill:#ffe6e6,stroke:#ff0000
-    style Eff fill:#e6ffe6,stroke:#00aa00
+    style Loss fill:#ff4444,stroke:#ff0000,stroke-width:3px,color:#ffffff
+    style Eff fill:#44ff44,stroke:#00aa00,stroke-width:3px,color:#000000
 ```
 
 ### Material Selection

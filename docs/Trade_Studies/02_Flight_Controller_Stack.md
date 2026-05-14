@@ -43,6 +43,7 @@ Many popular budget FPV stacks (such as the SpeedyBee F405 V3/V4) utilize the ST
 *   **The H7 Solution:** STM32H7-class processors (e.g., H743) feature **2MB of Flash** and run at 480MHz, providing immense compute headroom for sensor fusion and dual-gyro filtering without sacrificing features.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 xychart-beta
     title "Microcontroller Compute & Memory Headroom for ArduPilot"
     x-axis ["STM32F405 (1MB / 168MHz)", "STM32F722 (512KB / 216MHz)", "STM32H743 (2MB / 480MHz)"]
@@ -64,6 +65,7 @@ The **SkyStars H7 Dual Gyro FC + KM60 60A BLHeli_32 ESC** was selected over alte
 *   **Power:** The integrated 60A ESC vastly exceeds the ~20A total hover requirement, guaranteeing thermal safety.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     subgraph Compute Target [Raspberry Pi 4]
     ROS[ROS 2 Node: Object Tracking] --> |Velocity Cmds| MAV[MAVROS / MAVLink]
@@ -80,8 +82,8 @@ flowchart TD
     ESC --> M[2807 Motors]
     end
     
-    style AP fill:#d4e1f9,stroke:#333
-    style ESC fill:#d4f9d8,stroke:#333
+    style AP fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    style ESC fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
 ```
 
 ---

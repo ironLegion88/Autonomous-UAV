@@ -1,11 +1,12 @@
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     %% Define Styles
-    classDef power_high fill:#f9d0c4,stroke:#e63946,stroke-width:2px,color:#000
-    classDef power_low fill:#ffe8d6,stroke:#f4a261,stroke-width:2px,color:#000
-    classDef avionics fill:#d4e1f9,stroke:#1d3557,stroke-width:2px,color:#000
-    classDef flight fill:#d4f9d8,stroke:#2a9d8f,stroke-width:2px,color:#000
-    classDef actuator fill:#e9c46a,stroke:#e76f51,stroke-width:2px,color:#000
+    classDef power_high fill:#ff9999,stroke:#ff6666,stroke-width:2px,color:#000000
+    classDef power_low fill:#ffbb99,stroke:#ffaa77,stroke-width:2px,color:#000000
+    classDef avionics fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    classDef flight fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
+    classDef actuator fill:#ffdd88,stroke:#ff9900,stroke-width:2px,color:#000000
 
     %% Main Power Source
     BAT["4S Li-ion Battery (14.8V-16.8V)"]:::power_high

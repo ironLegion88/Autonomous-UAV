@@ -37,6 +37,7 @@ However, given the strict 2.5-month project timeline, compiling UE5 shaders, man
 *   **Phase 2 (Future Work): Unreal Engine 5 + Colosseum.** Once the control theory is proven in Gazebo, the physics backend will migrate to UE5 for advanced synthetic vision training.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 xychart-beta
     title "Simulator Trade-Off: Visual Fidelity vs. Ease of ROS 2 Integration"
     x-axis ["MuJoCo", "Gazebo Harmonic", "Unity", "UE5 + Colosseum"]
@@ -55,6 +56,7 @@ The current workspace establishes a **Software-In-The-Loop (SITL)** architecture
 This creates a 1:1 software replica of the physical drone. The exact same ROS 2 tracking node that publishes velocity commands (`/cmd_vel`) to the simulated Gazebo drone will be compiled and pushed to the physical Raspberry Pi 4 without altering a single line of code.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     subgraph Gazebo_Simulator [Gazebo Harmonic Physics Engine]
         SDF[Drone SDF Model]
@@ -88,9 +90,9 @@ flowchart TD
         MAVROS <-->|MAVLink Protocol| AP_FIRMWARE
     end
     
-    style Gazebo_Simulator fill:#e0fbfc,stroke:#3d405b,stroke-width:2px
-    style ArduPilot_SITL fill:#d4f9d8,stroke:#2a9d8f,stroke-width:2px
-    style ROS2_Middleware fill:#f4f1de,stroke:#3d405b,stroke-width:2px
+    style Gazebo_Simulator fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    style ArduPilot_SITL fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
+    style ROS2_Middleware fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000
 ```
 
 ---

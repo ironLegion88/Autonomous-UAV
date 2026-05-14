@@ -1,10 +1,11 @@
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart LR
     %% Styles
-    classDef drone fill:#eef2f3,stroke:#457b9d,stroke-width:2px
-    classDef ground fill:#fdfcdc,stroke:#e07a5f,stroke-width:2px
-    classDef antenna_5g fill:#d4f9d8,stroke:#2a9d8f,stroke-width:2px,stroke-dasharray: 5 5
-    classDef antenna_2g fill:#f9d0c4,stroke:#e63946,stroke-width:2px,stroke-dasharray: 5 5
+    classDef drone fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    classDef ground fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000
+    classDef antenna_5g fill:#4ac485,stroke:#7cffb3,stroke-width:2px,stroke-dasharray: 5 5,color:#000000
+    classDef antenna_2g fill:#ff9999,stroke:#ffcc99,stroke-width:2px,stroke-dasharray: 5 5,color:#000000
 
     subgraph Drone [UAV Airframe Architecture]
         direction TB

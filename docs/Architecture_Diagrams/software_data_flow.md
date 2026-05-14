@@ -1,14 +1,15 @@
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff', 'tertiaryTextColor': '#000000'}, 'sequenceDiagram': {'useMaxWidth': true, 'actorFontSize': '14px', 'actorBkg':'#1a1a1a', 'actorBorder':'#4a9eff', 'actorTextFill':'#ffffff', 'noteBkgColor':'#2d5a7b', 'noteBorderColor':'#4a9eff', 'noteFontColor': '#ffffff'}}}}%%
 sequenceDiagram
     autonumber
     
-    box rgb(240, 248, 255) Air Unit (UAV)
+    box rgb(26, 102, 194) Air Unit (UAV)
         participant CAM as Pi Camera V2
         participant PI as Pi 4 (ROS 2)
         participant FC as SkyStars H7 (ArduPilot)
     end
     
-    box rgb(255, 240, 245) Ground Station
+    box rgb(204, 119, 34) Ground Station
         participant GS as Ubuntu PC (ROS 2)
     end
 

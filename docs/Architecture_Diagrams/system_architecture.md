@@ -1,4 +1,5 @@
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     %% Node definitions
     subgraph Ground [Ground Station Hub]
@@ -61,10 +62,10 @@ flowchart TD
     AI_PI -.->|Mode 2: Local UART MAVLink Control| FC
     
     %% Styling
-    classDef ext fill:#f4f1de,stroke:#3d405b,stroke-width:2px
-    classDef uav fill:#e0fbfc,stroke:#3d405b,stroke-width:2px
-    classDef net fill:#3d405b,stroke:#f4f1de,stroke-width:2px,color:#fff
-    classDef mode fill:#ffb703,stroke:#e07a5f,stroke-width:2px,color:#000
+    classDef ext fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000
+    classDef uav fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    classDef net fill:#222222,stroke:#ffff00,stroke-width:2px,color:#ffffff
+    classDef mode fill:#ffcc00,stroke:#ff9900,stroke-width:2px,color:#000000
     
     class Ground,SYS_RC ext
     class UAV uav

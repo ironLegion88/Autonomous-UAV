@@ -30,6 +30,7 @@ To feed an AI model, the video link must output digital frames (H.264/H.265) dir
 | **Verdict** | Rejected | Rejected | **Selected** |
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 xychart-beta
     title "End-to-End Latency vs. AI Pipeline Suitability"
     x-axis ["Analog FPV", "DJI Digital", "OpenHD"]
@@ -85,6 +86,7 @@ The drone utilizes two separate, powerful radio systems. If they operate on adja
 *   **Manual RC Override (ELRS):** 2.4GHz Band.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     subgraph Drone Airframe Placement
         Top[Top Plate / Mast] -->|Mounts| OHD[OpenHD 5GHz Dipoles]
@@ -98,8 +100,8 @@ flowchart TD
         GS_ELRS[Radiomaster TX] -->|2.4GHz| Omni[Omnidirectional Control]
     end
     
-    style Top fill:#d4e1f9,stroke:#333
-    style Rear fill:#f9d0c4,stroke:#333
+    style Top fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff
+    style Rear fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000
 ```
 
 ### Safety Architecture: Why Keep ELRS?

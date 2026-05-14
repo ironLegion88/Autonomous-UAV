@@ -52,23 +52,24 @@ The most critical step in the assembly is the 5V avionics rail. The Raspberry Pi
 6. **Final Split:** From the filter board's output, run 20 AWG wires to the Raspberry Pi 4 (via 5V/GND GPIO pins) and the RTL8812EU Wi-Fi module.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     BAT[4S Li-ion XT60] -->|12 AWG| ESC[KM60 60A ESC]
     BAT -->|16 AWG| BUCK[XL4015 Buck Converter]
     
-    subgraph Propulsion Noise Zone
+    subgraph Propulsion [Propulsion Noise Zone]
         ESC --- CAP[1000uF 50V Low-ESR Cap]
         ESC -->|20 AWG| M[2807 Motors]
     end
 
-    subgraph Clean Avionics Rail
+    subgraph Avionics [Clean Avionics Rail]
         BUCK -->|Dial to 5.1V| FILT[RushFPV LC Filter]
         FILT -->|Split 20 AWG| PI[Raspberry Pi 4]
         FILT -->|Split 20 AWG| WIFI[BL-M8812EU2 Wi-Fi]
     end
     
-    style Propulsion Noise Zone fill:#ffe6e6,stroke:#e63946,stroke-width:2px
-    style Clean Avionics Rail fill:#e6ffe6,stroke:#2a9d8f,stroke-width:2px
+    style Propulsion fill:#ff6666,stroke:#ff4444,stroke-width:2px,color:#ffffff
+    style Avionics fill:#66cc66,stroke:#44aa44,stroke-width:2px,color:#000000
 ```
 
 ---

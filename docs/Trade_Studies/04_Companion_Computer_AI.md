@@ -35,6 +35,7 @@ Logically, the newest and most powerful Raspberry Pi 5 should be the best choice
 OpenHD historically relies on the proprietary Broadcom `MMAL` (Multi-Media Abstraction Layer) pipeline and the hardware H.264 encoder built into the VideoCore IV/VI GPUs of the Pi 3 and Pi 4. The Raspberry Pi 5 completely removed this legacy hardware encoder and shifted to a new software/hardware architecture. Consequently, OpenHD does not officially or stably support the Pi 5 yet.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 xychart-beta
     title "SBC Power Draw vs. Acceptable Avionics Limit"
     x-axis ["Pi Zero 2W", "Orange Pi", "Pi 4 (4GB)", "Pi 5", "Jetson Nano"]
@@ -61,6 +62,7 @@ While the Module 3 has superior image quality, it was **rejected** for two criti
 2.  **Software Stack (`libcamera`):** Camera Module 3 requires the modern `libcamera` stack. As discussed in the SBC evaluation, OpenHD relies on the legacy MMAL video pipeline. `libcamera` integration in OpenHD is currently highly experimental and prone to crashing. 
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart LR
     subgraph Camera Selection
     Cam3[Camera Module 3] -->|Requires| LC[libcamera Stack]
@@ -70,8 +72,8 @@ flowchart LR
     MMAL -->|Stable| OHD
     end
     
-    style Cam3 fill:#ffe6e6,stroke:#ff0000
-    style Cam2 fill:#e6ffe6,stroke:#00aa00
+    style Cam3 fill:#cc3333,stroke:#ff6666,stroke-width:2px,color:#ffffff
+    style Cam2 fill:#33cc33,stroke:#00aa00,stroke-width:2px,color:#000000
 ```
 
 **Conclusion:** The **Raspberry Pi Camera Module 2** was definitively selected. It provides plug-and-play compatibility with OpenHD and ensures a consistent, fixed focal plane for the tracking AI.
@@ -99,6 +101,7 @@ In this mode, the drone achieves true autonomy. The Pi 4 intercepts the raw CSI 
 ### 4.3 Data Flow Pipeline (State Machine)
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     CAM[Pi Camera V2 Raw Frames] --> SPLIT{ROS 2 Mode Selector}
     
@@ -116,8 +119,8 @@ flowchart TD
     %% Monitoring
     ONBOARD -.->|Background Task| ENC
     
-    style ONBOARD fill:#d4f9d8,stroke:#2a9d8f
-    style GS fill:#f9d0c4,stroke:#e63946
+    style ONBOARD fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000
+    style GS fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000
 ```
 
 ---

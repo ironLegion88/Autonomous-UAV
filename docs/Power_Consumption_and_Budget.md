@@ -16,6 +16,7 @@ A critical design requirement was safely powering a Raspberry Pi 4 and dual high
 To prevent this, the power architecture physically decouples the avionics load from the flight control load via a dedicated step-down (buck) converter.
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 flowchart TD
     BAT[6S / 4S Li-ion Battery] --> ESC[SkyStars 60A 4-in-1 ESC]
     BAT --> BUCK[XL4015 Buck Converter 5V/5A]
@@ -35,9 +36,9 @@ flowchart TD
     FC --> GPS[M10 GPS + Compass]
     FC --> ELRS[Radiomaster RP4TD-M Receiver]
 
-    classDef power fill:#f9d0c4,stroke:#333,stroke-width:2px;
-    classDef avionics fill:#d4e1f9,stroke:#333,stroke-width:2px;
-    classDef propulsion fill:#d4f9d8,stroke:#333,stroke-width:2px;
+    classDef power fill:#f9a873,stroke:#ffbc7a,stroke-width:2px,color:#000000;
+    classDef avionics fill:#4a7fc4,stroke:#7cb9ff,stroke-width:2px,color:#ffffff;
+    classDef propulsion fill:#4ac485,stroke:#7cffb3,stroke-width:2px,color:#000000;
     
     class BAT,BUCK,FILTER power;
     class PI,WIFI,GPS,ELRS avionics;
@@ -61,6 +62,7 @@ The continuous electrical load of the onboard compute and communications hardwar
 *Analysis:* The XL4015 Buck Converter is rated for **5A continuous (75W)**. During normal operation (OpenHD encoding + tracking), the system will draw ~2.5A to 3.0A, remaining safely within the regulator's thermal and electrical limits. 
 
 ```mermaid
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff'}, 'pie': {'useMaxWidth': true}}}%%
 pie title "Avionics Power Distribution (Peak Load)"
     "Raspberry Pi 4 CPU/GPU" : 54
     "RTL8812EU Wi-Fi Tx" : 32
@@ -106,6 +108,7 @@ $Hover\_Time = \left( \frac{Battery\_Capacity\_Ah \times Usable\_Capacity\_Facto
 
 Using 2807 motors, selecting the correct propeller is the single largest variable in total endurance. High-pitch tri-blades (freestyle props) require significantly more torque, drawing excess current. The model below visualizes the theoretical flight time penalties of aggressive propellers on the 4S2P configuration.
 
+%%{init: {'theme': 'dark', 'themeVariables': {'fontSize': '14px', 'primaryColor': '#1e1e1e', 'primaryTextColor': '#ffffff', 'primaryBorderColor': '#4a9eff', 'lineColor': '#4a9eff'}, 'flowchart': {'useMaxWidth': true}}}%%
 ```mermaid
 xychart-beta
     title "Theoretical Endurance vs. Propeller Geometry (4S2P 1.5kg AUW)"
